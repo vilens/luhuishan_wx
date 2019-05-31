@@ -1,0 +1,128 @@
+<style lang="less">
+  .input-border {
+    border: ~"1rpx" solid #979797;;
+  }
+
+  .search-bar {
+    padding: ~"18rpx" 0;
+    .search-input {
+      background: #FFFFFF;
+      margin: 0 ~"30rpx" 0 ~"32rpx";
+      height: ~"64rpx";
+      /*border: ~"1rpx" solid #979797;;*/
+      border-radius: ~"8rpx";
+      .search-icon {
+        margin: ~"13rpx" 0 ~"13rpx" ~"30rpx";
+        image {
+          display: block;
+          width: ~"38rpx";
+          height: ~"38rpx";
+        }
+      }
+      input {
+        font-family: PingFangSC-Regular;
+        font-size: ~"24rpx";
+        margin-left: ~"10rpx";
+      }
+      .input {
+        font-family: PingFangSC-Regular;
+        font-size: ~"28rpx";
+        color: #CCCCCC;
+      }
+      .clear-icon {
+        margin: ~"14rpx" ~"15rpx";
+        image {
+          display: block;
+          width: ~"36rpx";
+          height: ~"36rpx";
+        }
+      }
+    }
+    .cancel-btn {
+      margin: 0 ~"32rpx" 0 0;
+      font-family: PingFangSC-Regular;
+      font-size: ~"24rpx";
+      color: #000000;
+    }
+    .search-btn {
+      margin: 0 ~"32rpx" 0 0;
+      border-radius: ~"8rpx";
+      font-family: PingFangSC-Regular;
+      font-size: ~"28rpx";
+      color: #FFFFFF;
+      background: #F77D85;
+      line-height: ~"66rpx";
+    }
+  }
+</style>
+<template>
+  <view class="search-bar display-flex flex-align-center">
+    <view class="search-input {{hasBorder?'input-border':''}} flex-1 display-flex flex-align-center">
+      <view class="search-icon">
+        <image src="http://www.mintree.cn/img/luhuishan/img/icon_shousuo.png"></image>
+      </view>
+      <input class="flex-1" bindinput="bindkeyinput" bindfocus="bfocus" bindblur="bblur" placeholder="热门社区"
+             value="{{searchVal}}"
+             placeholder-class="input"/>
+      <view wx:if="{{isShowClearBtn}}" class="clear-icon" @tap="clearSearch">
+        <image src="http://www.mintree.cn/img/luhuishan/img/icon_search_delete@3x.png"></image>
+      </view>
+    </view>
+    <view wx:if="{{isSearch && !isShowSearchBtn}}" class="cancel-btn" @tap="goCancel">取消</view>
+    <button wx:if="{{isShowSearchBtn}}" class="search-btn" @tap="goSearch">搜索</button>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+
+  export default class Index extends wepy.component {
+    props = {
+      hasBorder: {
+        type: Boolean,
+        default: true,
+        twoWay: true
+      }
+    };
+    data = {
+      searchVal: '',
+      isShowClearBtn: false,
+      isShowSearchBtn: false,
+      isSearch: false
+    };
+    methods = {
+      clearSearch() {
+        this.searchVal = '';
+        this.isShowClearBtn = false;
+        this.isShowSearchBtn = false;
+      },
+      bindkeyinput(e) {
+        this.searchVal = e.detail.value;
+        if (this.searchVal && this.searchVal.length > 0) {
+          this.isShowClearBtn = true;
+          this.isShowSearchBtn = true;
+        }
+      },
+      bfocus(e) {
+        this.isSearch = true;
+      },
+      goCancel() {
+        this.isSearch = false;
+      },
+      goSearch() {
+        let tmpValue = this.searchVal;
+        this.isSearch = false;
+        this.searchVal = '';
+        this.isShowClearBtn = false;
+        this.isShowSearchBtn = false;
+        this.$emit('goSearch', tmpValue);
+      },
+      bblur() {
+        this.isSearch = false;
+      }
+    };
+    events = {};
+
+    onLoad() {
+    }
+  }
+</script>

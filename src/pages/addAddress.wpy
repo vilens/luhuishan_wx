@@ -1,0 +1,121 @@
+<style lang="less">
+  page {
+    background: #F8F8F8;
+    .wapper {
+      .list {
+        border-top: ~"1rpx" solid #EEEEEE;
+        margin-bottom: ~"20rpx";
+        .item {
+          padding: ~"34rpx" ~"30rpx";
+          background: #FFFFFF;
+          border-bottom: ~"1rpx" solid #EEEEEE;
+          .title {
+            width: ~"170rpx";
+            font-family: PingFangSC-Regular;
+            font-size: ~"28rpx";
+            color: #222222;
+            text-align: justify;
+          }
+          .input {
+            /*margin-left: ~"85rpx";*/
+            font-family: PingFangSC-Regular;
+            font-size: ~"28rpx";
+            color: #CCCCCC;
+            text-align: justify;
+          }
+          picker {
+            width: 100%;
+            font-size: ~"28rpx";
+            .block {
+              margin-right: ~"30rpx";
+            }
+          }
+        }
+      }
+      .line {
+        margin-top: ~"20rpx";
+        padding: ~"34rpx" ~"30rpx";
+        background: #FFFFFF;
+      }
+    }
+    .radio {
+      radio {
+        width: ~"40rpx" !important;
+        height: ~"40rpx" !important;
+      }
+      radio .wx-radio-input {
+        width: ~"40rpx"!important;
+        height: ~"40rpx"!important;
+      }
+      .text {
+        margin-left: ~"20rpx" !important;
+        font-size: ~"28rpx" !important;
+        color: #222222 !important;
+      }
+    }
+  }
+</style>
+<template>
+  <view class="wapper">
+    <view class="list">
+      <repeat for="{{list}}">
+        <view class="item display-flex flex-align-center">
+          <view wx:if="{{item.title}}" class="title">{{item.title}}</view>
+          <input wx:if="{{item.type=='text'}}" class="input flex-1" placeholder="{{item.placeholder}}"/>
+          <picker wx:if="{{item.type=='select'}}" class="flex-1" mode="region" bindchange="bindRegionChange"
+                  value="{{region}}"
+                  custom-item="{{customItem}}">
+            <view class="picker">
+              <text class="block">{{region[0]}}</text>
+              <text class="block">{{region[1]}}</text>
+              <text class="block">{{region[2]}}</text>
+            </view>
+          </picker>
+        </view>
+      </repeat>
+    </view>
+    <view class="line">
+      <radio-group class="radio-group" @tap="radioChange">
+        <label class="radio display-flex flex-align-center ">
+          <radio color="#000000" checked="{{isDefault}}"/>
+          <view class="text">设为默认地址</view>
+        </label>
+      </radio-group>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '添加收货地址'
+    };
+    data = {
+      // region: ['广东省', '广州市', '海珠区'],
+      region: [],
+      customItem: '全部',
+      isDefault: false,
+      list: [
+        { type: 'text', title: '收件人', placeholder: '请输入收货人姓名' },
+        { type: 'text', title: '手机号', placeholder: '请输入收货人手机号' },
+        { type: 'select', title: '省市区', placeholder: '请选择地区' },
+        { type: 'text', title: '详细地址', placeholder: '请输入详细地址' }
+      ]
+    };
+    methods = {
+      radioChange(e) {
+        this.isDefault = !this.isDefault;
+      },
+      bindRegionChange: function(e) {
+        console.log('picker发送选择改变，携带值为', e.detail.value);
+        this.region = e.detail.value;
+      }
+    };
+
+    onLoad() {
+
+    }
+  }
+</script>

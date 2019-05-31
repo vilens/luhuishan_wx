@@ -1,0 +1,249 @@
+<style lang="less">
+  @color-red: #F77D85;
+  page {
+    .wapper-me {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      /*padding-bottom: ~"128rpx";*/
+      .personal-view {
+        height: ~"120rpx";
+        background: url("http://www.mintree.cn/img/wode_img_bg.png");
+        padding: ~"70rpx" ~"30rpx";
+        .avatar {
+          overflow: hidden;
+          width: ~"120rpx";
+          height: ~"120rpx";
+          border-radius: 50%;
+          image {
+            display: block;
+            width: ~"120rpx";
+            height: ~"120rpx";
+          }
+        }
+        .author-view {
+          margin-left: ~"22rpx";
+          .author-line {
+            .name {
+              font-family: PingFangSC-Regular;
+              font-size: ~"36rpx";
+              color: #222222;
+              text-align: center;
+            }
+            .authenticate {
+              margin-left: ~"24rpx";
+              image {
+                display: block;
+                width: ~"40rpx";
+                height: ~"40rpx";
+              }
+            }
+          }
+          .author-social {
+            margin: ~"5rpx" 0 0 0;
+            font-family: PingFangSC-Regular;
+            font-size: ~"24rpx";
+            color: #F77D85;
+            text-align: justify;
+          }
+        }
+        .modify-btn {
+          .text {
+            font-family: PingFangSC-Regular;
+            font-size: ~"30rpx";
+            color: #222222;
+            text-align: center;
+          }
+          .icon-right {
+            image {
+              display: block;
+              width: ~"56rpx";
+              height: ~"56rpx";
+            }
+          }
+        }
+      }
+
+    }
+    .wapper-me-nologin {
+      .avatar {
+        margin: ~"100rpx" auto;
+        width: ~"200rpx";
+        height: ~"200rpx";
+        border-radius: 50%;
+        /*border: 3px solid rgba(45, 198, 213, .7);*/
+        /*box-shadow: 3px 3px 10px rgba(45, 198, 213, 0.2);*/
+        border: ~"4rpx" solid rgba(247, 125, 133, .7);
+        box-shadow: 0 ~"4rpx" ~"8rpx" 0 rgba(0, 0, 0, 0.10);
+        text-align: center;
+        line-height: ~"200rpx";
+        color: #F77D85;
+      }
+      .info-panel {
+        padding: 0 ~"100rpx";
+        .line {
+          width: 100%;
+          height: ~"2rpx";
+          background: #B6B6B6;
+        }
+        .auth-info {
+          padding: ~"50rpx" 0;
+          .info-title {
+            font-size: ~"40rpx";
+            color: #F77D85;
+          }
+          .info {
+            margin-top: ~"30rpx";
+            font-size: ~"34rpx";
+            color: #B6B6B6;
+          }
+        }
+      }
+      .auth-btn {
+        margin: 0 ~"100rpx";
+        padding: ~"10rpx" 0;
+        background: #F77D85;
+        border-radius: ~"16rpx";
+        font-size: ~"30rpx";
+        color: #EEEEEE;
+        text-align: center;
+      }
+
+    }
+  }
+</style>
+<template>
+  <view wx:if="{{!isAuth}}" class="wapper-me-nologin">
+    <view class="avatar">未登录</view>
+    <view class="info-panel">
+      <view class="line"></view>
+      <view class="auth-info">
+        <view class="info-title">申请获取一下权限</view>
+        <view class="info">获取您的公开信息（头像，昵称等）</view>
+      </view>
+    </view>
+    <button class="auth-btn" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button>
+  </view>
+  <view wx:if="{{isAuth}}" class="wapper-me">
+    <view class="personal-view display-flex flex-align-center" @tap="toPersonalInfo">
+      <view class="avatar">
+        <!--<image src="http://www.mintree.cn/img/luhuishan/img/wode_zuozhetouxiang.png"></image>-->
+        <open-data type="userAvatarUrl"></open-data>
+      </view>
+      <view class="author-view flex-1">
+        <view class="author-line display-flex flex-align-center">
+          <!--<view class="name">张二狗</view>-->
+          <open-data class="name" type="userNickName"></open-data>
+          <view class="authenticate">
+            <image src="http://www.mintree.cn/img/luhuishan/img/wode_icon_renzheng.png"></image>
+          </view>
+        </view>
+        <view class="author-social">
+          关注12|粉丝112
+        </view>
+      </view>
+      <view class="modify-btn display-flex flex-align-center">
+        <text class="text">修改个人资料</text>
+        <view class="icon-right">
+          <image src="http://www.mintree.cn/img/luhuishan/img/nav_icon_right@3x.png"></image>
+        </view>
+      </view>
+    </view>
+    <list1 :list.sync="list1"/>
+    <list2 :list.sync="list2"/>
+    <list3 :list.sync="list3"/>
+  </view>
+
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import List from '../components/commonList';
+  import API from '../common/api';
+  import BIZ from '../common/biz';
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '我的'
+    };
+    components = {
+      list1: List,
+      list2: List,
+      list3: List
+    };
+    data = {
+      isAuth: true,
+      list1: [
+        { id: 0, icon: 'http://www.mintree.cn/img/luhuishan/img/wede_icon_zuopin.png', name: '我的作品', url: 'myProduct' },
+        {
+          id: 1,
+          icon: 'http://www.mintree.cn/img/luhuishan/img/wode_icon_xihuan.png',
+          name: '我喜欢的',
+          url: 'myLikeProduct'
+        },
+        {
+          id: 2,
+          icon: 'http://www.mintree.cn/img/luhuishan/img/wode_icon_guanzhu.png',
+          name: '我关注的',
+          url: 'myFocusAuthor'
+        }
+      ],
+      list2: [
+        { id: 3, icon: 'http://www.mintree.cn/img/luhuishan/img/wode_icon_dingdan.png', name: '我的订单', url: 'myOrder' },
+        { id: 4, icon: 'http://www.mintree.cn/img/luhuishan/img/wode_icon_dizhi.png', name: '收货地址', url: 'myAddress' }
+      ],
+      list3: [
+        { id: 5, icon: 'http://www.mintree.cn/img/luhuishan/img/wode_icon_yijian.png', name: '意见反馈', url: 'feedback' }
+      ]
+    };
+    methods = {
+      toPersonalInfo() {
+        wepy.navigateTo({
+          url: 'personalInfo'
+        });
+      },
+      bindGetUserInfo(e) {
+        this.isAuth = true;
+
+        BIZ.wxLogin().then(function(res) {
+          let userInfo = API.decryption(res.session_key, e.detail.iv, e.detail.encryptedData);
+          let user = {
+            username: e.detail.userInfo.nickName,
+            wxNickname: e.detail.userInfo.nickName,
+            wxSex: e.detail.userInfo.gender,
+            wxCity: e.detail.userInfo.city,
+            wxProvince: e.detail.userInfo.province,
+            wxCountry: e.detail.userInfo.country,
+            wxHeadimgurl: e.detail.userInfo.avatarUrl
+          };
+          user.wxOpenid = userInfo.openId;
+          BIZ.findUser(user).then(function(fu_res) {
+            if (fu_res.data.code == 20003) {
+              BIZ.saveUser(user).then(function(su_res) {
+                user = su_res.data.result;
+                wepy.setStorageSync('userInfo', user);
+              });
+            } else {
+              user = fu_res.data.result;
+              wepy.setStorageSync('userInfo', user);
+            }
+          });
+        });
+      }
+    };
+
+    onLoad() {
+      var that = this;
+
+      let wxOpenid = wepy.getStorageSync('openid');
+      let userInfo = wepy.getStorageSync('userInfo');
+      if (wxOpenid && userInfo) {
+        this.isAuth = true;
+      } else {
+        this.isAuth = false;
+      }
+    }
+  }
+</script>

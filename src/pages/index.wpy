@@ -1,0 +1,58 @@
+<style lang="less">
+  page {
+    background: #F8F8F8;
+  }
+</style>
+<template>
+  <view hidden="{{currentTab!=0}}">
+    <main/>
+  </view>
+  <view hidden="{{currentTab!=1}}">
+    <author/>
+  </view>
+  <view hidden="{{currentTab!=2}}">
+    <me/>
+  </view>
+  <tab :active.sync="currentTab"/>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import Tab from '../components/tab';
+  import Main from '../components/main_';
+  import Me from '../components/me_';
+  import Author from '../components/author_';
+
+  // import testMixin from '../mixins/test';
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '鹿回山',
+    };
+    components = {
+      tab: Tab,
+      main: Main,
+      author: Author,
+      me: Me
+    };
+
+    // mixins = [testMixin];
+
+    data = {
+      currentTab: 0
+    };
+
+    computed = {
+      now() {
+        return +new Date();
+      }
+    };
+
+    methods = {};
+
+    onLoad() {
+      let self = this;
+
+    }
+  }
+</script>

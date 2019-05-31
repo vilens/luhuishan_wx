@@ -1,0 +1,84 @@
+<style type="less">
+
+  @fontcolor: #222222;
+  @activecolor: #F77D85;
+  .tab {
+    color: @fontcolor;
+    position: fixed;
+    bottom: 0;
+    height: ~"128rpx";
+    width: 100%;
+    border-top: 1px solid #dad9d6;
+    background-color: #FFFFFF;
+    white-space: nowrap;
+    .tab_item {
+      &.active {
+        color: @activecolor;
+      }
+      display: inline-block;
+      text-align: center;
+    }
+    .icon {
+      width: ~"52rpx";
+      height: ~"52rpx";
+      display: block;
+      margin: auto;
+    }
+    .title {
+      font-family: PingFangSC-Regular;
+      font-size: ~"24rpx";
+      letter-spacing: 0;
+      text-align: center;
+      line-height: ~"24rpx";
+      display: block;
+      margin-top: ~"12rpx";
+    }
+  }
+</style>
+<template>
+  <view class="tab display-flex flex-align-center">
+    <view class="tab_item flex-1 tab_1{{active == 0 ? ' active' : ''}}" @tap="change(0)">
+      <image class="icon" src="http://www.mintree.cn/img/luhuishan/img/icon_shouye_{{active == 0 ? 'red' : 'black'}}.png"></image>
+      <text class="title">首页</text>
+    </view>
+    <view class="tab_item flex-1 tab_2{{active == 1 ? ' active' : ''}}" @tap="change(1)">
+      <image class="icon" src="http://www.mintree.cn/img/luhuishan/img/icon_huajia_{{active == 1 ? 'red' : 'black'}}.png"></image>
+      <text class="title">画家</text>
+    </view>
+    <view class="tab_item flex-1 tab_3{{active == 2 ? ' active' : ''}}" @tap="change(2)">
+      <image class="icon" src="http://www.mintree.cn/img/luhuishan/img/icon_wode_{{active == 2 ? 'red' : 'black'}}.png"></image>
+      <text class="title">我的</text>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+
+  export default class Tab extends wepy.component {
+
+    props = {
+      active: {
+        twoWay: true
+      }
+    };
+    data = {
+      titleNameList: ['鹿回山', '画家', '我的']
+    };
+
+    // mixins = [testMixin];
+
+    methods = {
+      change(idx, evt) {
+        let that = this;
+        this.active = +idx;
+        wepy.setNavigationBarTitle({
+          title: that.titleNameList[idx]
+        });
+        this.mixin = 'tab'+idx
+      }
+    };
+
+    onLoad() {
+    }
+  }
+</script>

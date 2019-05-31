@@ -1,0 +1,92 @@
+<style lang="less">
+  .list {
+    margin: ~"20rpx" 0 0 0;
+    .item {
+      padding: ~"24rpx" ~"30rpx";
+      background: #FFFFFF;
+      border-bottom: ~"1rpx" solid #EEEEEE;
+      .icon {
+        image {
+          display: block;
+          width: ~"60rpx";
+          height: ~"60rpx";
+        }
+      }
+      .title {
+        margin-left: ~"40rpx";
+        font-family: PingFangSC-Regular;
+        font-size: ~"30rpx";
+        color: #222222;
+        text-align: justify;
+      }
+    }
+    /*.item:nth-child(4) {*/
+    /*margin: ~"20rpx" 0 0 0;*/
+    /*}*/
+    /*.item:nth-child(6) {*/
+    /*margin: ~"20rpx" 0 0 0;*/
+    /*}*/
+  }
+
+</style>
+<template>
+  <view class="list">
+    <block wx:for="{{list}}" wx:for-index="index" wx:for-item="item" wx:key="id">
+      <view @tap="tap({{item}})" class="item display-flex flex-align-center">
+        <view class="icon">
+          <image src="{{item.icon}}"></image>
+        </view>
+        <view class="title">{{item.name}}</view>
+      </view>
+    </block>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+
+  export default class List extends wepy.component {
+    props = {
+      list: {
+        type: Array,
+        default: [],
+        twoWay: true
+      }
+    };
+    data = {
+      // list: {
+      //   type: Array,
+      //   default: [
+      //     {
+      //       id: 0,
+      //       name: 'loading'
+      //     }
+      //   ],
+      //   twoWay: true
+      // }
+    };
+
+    events = {
+      'index-broadcast': (...args) => {
+        let $event = args[args.length - 1];
+        console.log(`${this.$name} receive ${$event.name} from ${$event.source.name}`);
+      }
+    };
+
+    methods = {
+      tap(item) {
+        if (item.url) {
+          wepy.navigateTo({
+            url: item.url
+          });
+        }
+      },
+      add() {
+        let len = this.list.length;
+        this.list.push({ id: len + 1, title: 'title_' + len });
+      }
+    };
+
+    onLoad() {
+    }
+  }
+</script>

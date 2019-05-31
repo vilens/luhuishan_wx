@@ -1,0 +1,172 @@
+<style lang="less">
+  page {
+    .wapper {
+      top: 0;
+      left: 0;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      swiper {
+        width: inherit;
+        height: inherit;
+        swiper-item {
+          display: block;
+        }
+        .img-view {
+          width: inherit;
+          height: inherit;
+          background: #000000;
+          .bg-img {
+            width: 100%;
+            height: 100%;
+            image {
+              display: block;
+              width: 100%;
+              height: 100%;
+            }
+          }
+          .content-view {
+            background: rgba(34, 34, 34, .5);
+            position: absolute;
+            bottom: ~"114rpx";
+            width: 100%;
+            padding: ~"10rpx" 0;
+            .text {
+              margin: 0 auto;
+              width: ~"600rpx";
+              font-family: PingFangSC-Regular;
+              font-size: ~"28rpx";
+              color: #F2F2F2;
+              text-align: center;
+            }
+          }
+          .bar-view {
+            padding: ~"34rpx" ~"30rpx";
+            background: #222222;
+            position: absolute;
+            bottom: 0;
+            width: ~"690rpx";
+            /*height: ~"108rpx";*/
+            font-family: PingFangSC-Regular;
+            font-size: ~"28rpx";
+            color: #FFFFFF;
+            .left {
+            }
+            .right {
+              .icon {
+                image {
+                  display: block;
+                  width: ~"46rpx";
+                  height: ~"46rpx";
+                }
+              }
+            }
+          }
+        }
+      }
+
+    }
+  }
+</style>
+<template>
+  <view class="wapper">
+    <swiper duration="{{duration}}">
+      <block wx:for="{{detailData}}" wx:key="item">
+        <swiper-item>
+          <view class="img-view">
+            <view class="bg-img display-flex flex-align-center flex-pack-center">
+              <image src="{{item.pic}}" mode="widthFix" lazy-load="true"></image>
+            </view>
+            <view class="content-view">
+              <view class="text">
+                {{item.content}}
+              </view>
+            </view>
+            <view class="bar-view display-flex flex-align-center flex-pack-justify">
+              <view class="left">阅读{{item.countRead}}</view>
+              <view class="right display-flex flex-align-center" @tap="toZan({{index}})">
+                <view class="icon">
+                  <image wx:if="{{!item.isZan}}"
+                         src="http://www.mintree.cn/img/luhuishan/img/img_zan_default.png"></image>
+                  <image wx:if="{{item.isZan}}" src="http://www.mintree.cn/img/luhuishan/img/img_zan_.png"></image>
+                </view>
+                <text>{{item.countZan}}</text>
+              </view>
+            </view>
+          </view>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import Api from '../common/api';
+
+  export default class Index extends wepy.page {
+    config = {
+      // navigationBarTitleText: 'Test'
+    };
+    data = {
+      detailData: [
+        {
+          pic: 'http://www.mintree.cn/img/luhuishan/product/1.png',
+          content: '耳闻之，不如目见之，目见之，不如足见之。我走过的，你们来过的',
+          countRead: 1290,
+          countZan: 1289,
+          isZan: false
+        },
+        {
+          pic: 'http://www.mintree.cn/img/luhuishan/product/2.png',
+          content: '写生在别人看来和想象中是充满浪漫地，但现实中无时不体现辛苦，耗体力。反正就这么慢慢积累着吧！',
+          countRead: 1390,
+          countZan: 1389,
+          isZan: true
+        },
+        {
+          pic: 'http://www.mintree.cn/img/luhuishan/product/3.png',
+          content: '写生，有时真像一位孤独的放羊人一样，放的羊在一天天长大，画家的笔在时光中默默耕耘，总有一天，沉甸甸地收获会悄然而至。',
+          countRead: 690,
+          countZan: 789,
+          isZan: true
+        },
+        {
+          pic: 'http://www.mintree.cn/img/luhuishan/product/4.png',
+          content: '它无限扩展了我的绘画思路和表现题材。让心灵打开了一扇窗，自然的景物照射进心里，演化为心灵的景物，一切都不露声色，静静地在我的亚麻布上流淌出来！',
+          countRead: 190,
+          countZan: 189,
+          isZan: false
+        }
+      ],
+      duration: 1000
+    };
+    methods = {
+      toZan(index) {
+        let item = this.detailData[index];
+        item.isZan = !item.isZan;
+        if (item.isZan) {
+          item.countZan++;
+        } else {
+          item.countZan--;
+        }
+      },
+      imgLoaded(e, a, b, c) {
+        console.info(e);
+        let width = e.detail.width;
+        let height = e.detail.height;
+        let rate = width / (this.windowWidth * this.pixelRatio);
+        let coverHeight = height / rate;
+        coverHeight = coverHeight.toFixed(2);
+        console.info(coverHeight);
+
+      }
+    };
+
+    onLoad(option) {
+      wepy.setNavigationBarTitle({
+        title: option.productName
+      });
+    }
+  }
+</script>

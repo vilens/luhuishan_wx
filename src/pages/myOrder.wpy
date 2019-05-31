@@ -1,0 +1,175 @@
+<style lang="less">
+  page {
+    background: #F8F8F8;
+    .wapper {
+      .order-list {
+        margin-top: ~"20rpx";
+        .item {
+          margin: 0 0 ~"20rpx" 0;
+          background: #FFFFFF;
+          .author-line {
+            padding: ~"12rpx" ~"30rpx";
+            font-family: PingFangSC-Regular;
+            font-size: ~"28rpx";
+            color: #222222;
+            border-bottom: ~"1rpx" solid #EEEEEE;
+          }
+          .product-line {
+            background: #F6FBFF;
+            padding: ~"20rpx" ~"30rpx";
+            border-bottom: ~"1rpx" solid #EEEEEE;
+            .avatar {
+              image {
+                display: block;
+                width: ~"164rpx";
+                height: ~"164rpx";
+              }
+            }
+            .product-view {
+              margin-left: ~"35rpx";
+              .title {
+                font-family: PingFangSC-Regular;
+                font-size: ~"32rpx";
+                color: #000000;
+              }
+              .detail {
+                margin-top: ~"6rpx";
+                font-family: PingFangSC-Regular;
+                font-size: ~"24rpx";
+                color: #666666;
+                line-height: ~"26rpx";
+                height: ~"72rpx";
+              }
+              .sub-line {
+                margin-top: ~"10rpx";
+                font-family: PingFangSC-Regular;
+                font-size: ~"24rpx";
+                .cost {
+                  opacity: 0.88;
+                  color: #222222;
+                }
+                .status {
+                  color: #666666;;
+                }
+              }
+            }
+          }
+          .cost-line {
+            border-bottom: ~"1rpx" solid #EEEEEE;
+            padding: ~"18rpx" ~"30rpx";
+            font-family: PingFangSC-Regular;
+            font-size: ~"24rpx";
+            color: #222222;
+            .time{
+
+            }
+            .cost-view{
+              .freight{
+                font-size: ~"20rpx";
+              }
+            }
+          }
+          .botton {
+            padding: ~"11rpx" ~"30rpx";
+            .btn {
+              border-radius: ~"100rpx";
+              font-family: PingFangSC-Regular;
+              font-size: ~"24rpx";
+              padding: ~"7rpx" ~"16rpx";
+              &.delete-btn {
+                border: ~"1rpx" solid #999999;
+                color: #999999;
+                margin-right: ~"30rpx";
+              }
+              &.confirm-btn {
+                border: ~"1rpx" solid #FF4A56;
+                color: #FF4A56;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+</style>
+<template>
+  <view class="wapper">
+    <view class="order-list">
+      <repeat for="{{orderList}}">
+        <view class="item" @tap="toOrderDetail">
+          <view class="author-line">作者：{{item.author}}</view>
+          <view class="product-line display-flex flex-align-center">
+            <view class="avatar">
+              <image src="{{item.avatar}}" lazy-load="true"></image>
+            </view>
+            <view class="product-view">
+              <view class="title">{{item.title}}</view>
+              <view class="detail">{{item.detail}}</view>
+              <view class="sub-line display-flex flex-align-center flex-pack-justify">
+                <view class="cost">¥{{item.cost}}</view>
+                <view class="status">{{item.status}}</view>
+              </view>
+            </view>
+          </view>
+          <view class="cost-line display-flex flex-align-center flex-pack-justify">
+            <view class="time">{{item.time}}</view>
+            <view class="cost-view">
+              <text>合计：¥{{item.total}}</text>
+              <text class="freight">（含运费¥{{item.freight}}）</text>
+            </view>
+          </view>
+          <view class="botton display-flex flex-pack-end">
+            <view class="btn confirm-btn">确认收货</view>
+          </view>
+        </view>
+      </repeat>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '我的订单'
+    };
+    data = {
+      orderList: [
+        {
+          author: '张二狗',
+          avatar: 'http://www.mintree.cn/img/luhuishan/img/product_thumbnail.png',
+          title: '我梦中的宏村',
+          detail: '油画/60cm*70cm/亚麻布/1920年/未装裱',
+          time: '2018-07-08',
+          cost: '888.00',
+          freight:'20.00',
+          total:'908.00',
+          status: '可出售'
+        },
+        {
+          author: '张二狗',
+          avatar: 'http://www.mintree.cn/img/luhuishan/img/product_thumbnail.png',
+          title: '我梦中的宏村',
+          detail: '油画/60cm*70cm/亚麻布/1920年/未装裱',
+          time: '2018-07-08',
+          cost: '888.00',
+          freight:'20.00',
+          total:'908.00',
+          status: '不可出售'
+        }
+      ]
+    };
+    methods = {
+      toOrderDetail(){
+        wepy.navigateTo({
+          url: 'orderDetail'
+        });
+      }
+    };
+
+    onLoad() {
+
+    }
+  }
+</script>

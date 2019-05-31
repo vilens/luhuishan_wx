@@ -1,0 +1,305 @@
+<style lang="less">
+  page {
+    background: #F8F8F8;
+    .wapper {
+      padding-bottom: ~"80rpx";
+      .consignee-item {
+        background: #FFFFFF;
+        margin-top: ~"20rpx";
+
+        font-family: PingFangSC-Regular;
+        font-size: ~"28rpx";
+        color: #666666;
+        .consignee-person {
+          padding: ~"20rpx" ~"30rpx" ~"10rpx";
+          .title {
+            width: ~"150rpx";
+          }
+          .name {
+            margin-left: ~"10rpx";
+          }
+          .phone {
+            margin-left: ~"32rpx";
+          }
+        }
+        .consignee-address {
+          padding: 0 ~"30rpx" ~"20rpx";
+          border-bottom: ~"1rpx" solid #EEEEEE;
+          .title {
+            width: ~"150rpx";
+          }
+        }
+        .buyer-message {
+          padding: ~"18rpx" ~"30rpx";
+          .title {
+            width: ~"150rpx";
+          }
+          margin-top: ~"10rpx";
+        }
+      }
+      .product-item {
+        background: #FFFFFF;
+        margin-top: ~"20rpx";
+        .author-line {
+          padding: ~"12rpx" ~"30rpx";
+          border-bottom: ~"1rpx" solid #EEEEEE;
+          .name {
+            font-family: PingFangSC-Regular;
+            font-size: ~"28rpx";
+            color: #222222;
+          }
+          .status {
+            font-family: PingFangSC-Regular;
+            font-size: ~"24rpx";
+            color: #666666;
+          }
+        }
+        .product-line {
+          padding: ~"30rpx";
+          border-bottom: ~"1rpx" solid #EEEEEE;
+          .pic {
+            image {
+              display: block;
+              width: ~"164rpx";
+              height: ~"164rpx";
+            }
+          }
+          .product-view {
+            margin-left: ~"35rpx";
+            font-family: PingFangSC-Regular;
+            .name {
+              font-size: ~"32rpx";
+              color: #000000;
+            }
+            .detail {
+              margin-top: ~"10rpx";
+              font-size: ~"24rpx";
+              color: #666666;
+              text-align: center;
+              height: ~"70rpx";
+              line-height: ~"30rpx";
+            }
+            .cost {
+              opacity: 0.88;
+              font-size: ~"30rpx";
+              color: #FF4A56;
+            }
+          }
+        }
+        .cost-line {
+          padding: ~"20rpx" ~"30rpx" ~"24rpx";
+          border-bottom: ~"1rpx" solid #EEEEEE;
+          .freight-line {
+            font-family: PingFangSC-Regular;
+            font-size: ~"24rpx";
+            color: #666666;
+            .left {
+            }
+            .right {
+              opacity: 0.88;
+              color: #222222;
+            }
+          }
+          .total-line {
+            margin-top: ~"10rpx";
+            font-family: PingFangSC-Regular;
+            font-size: ~"28rpx";
+            color: #666666;
+            .left {
+            }
+            .right {
+              opacity: 0.88;
+              font-size: ~"30rpx";
+              color: #FF4A56;
+            }
+          }
+        }
+        .button {
+          padding: ~"30rpx";
+          .btn {
+            border: ~"1rpx" solid #FF4A56;
+            border-radius: ~"100rpx";
+            font-family: PingFangSC-Regular;
+            font-size: ~"24rpx";
+            color: #FF4A56;
+            padding: ~"7rpx" ~"16rpx";
+          }
+        }
+      }
+      .order-item {
+        background: #FFFFFF;
+        margin-top: ~"20rpx";
+        padding: ~"30rpx";
+        .detail-line {
+          margin-top: ~"10rpx";
+          font-family: PingFangSC-Regular;
+          font-size: ~"24rpx";
+          color: #666666;
+          &.line {
+            margin-top: 0;
+            .btn {
+              border: ~"1rpx" solid #999999;
+              border-radius: ~"100rpx";
+              font-family: PingFangSC-Regular;
+              font-size: ~"24rpx";
+              color: #666666;
+              padding: ~"7rpx" ~"12rpx";
+            }
+          }
+        }
+      }
+      .contact-btn {
+        margin-top: ~"25rpx";
+        background: #FFFFFF;
+        padding: ~"34rpx" 0;
+        .contant {
+          width: ~"160rpx";
+          margin: 0 auto;
+          .icon {
+            image {
+              display: block;
+              width: ~"40rpx";
+              height: ~"40rpx";
+            }
+          }
+          .text {
+            margin-left: ~"20rpx";
+            font-family: PingFangSC-Regular;
+            font-size: ~"24rpx";
+            color: #000000;
+          }
+        }
+
+      }
+    }
+  }
+</style>
+<template>
+  <view class="wapper">
+    <view class="consignee-item">
+      <view class="consignee-person display-flex flex-align-center">
+        <view class="title">收货人：</view>
+        <view class="name">
+          {{consignee.consigneeName}}
+        </view>
+        <view class="phone">
+          {{consignee.consigneePhone}}
+        </view>
+      </view>
+      <view class="consignee-address display-flex flex-align-start">
+        <view class="title">收货地址：</view>
+        <view class="flex-1">
+          {{consignee.consigneeAddress}}
+        </view>
+      </view>
+      <view class="buyer-message display-flex flex-align-start">
+        <view class="title">买家留言：</view>
+        <view class="flex-1">
+          {{consignee.message}}
+        </view>
+      </view>
+    </view>
+    <view class="product-item">
+      <view class="author-line display-flex flex-align-center flex-pack-justify">
+        <view class="name">作者：{{product.authorName}}</view>
+        <view class="status">{{product.productStatus}}</view>
+      </view>
+      <view class="product-line display-flex flex-align-start">
+        <view class="pic">
+          <image src="{{product.productPic}}"></image>
+        </view>
+        <view class="product-view">
+          <view class="name">{{product.productName}}</view>
+          <view class="detail">{{product.productDetail}}</view>
+          <view class="cost">¥{{product.productCost}}</view>
+        </view>
+      </view>
+      <view class="cost-line">
+        <view class="freight-line display-flex flex-align-center flex-pack-justify">
+          <view class="left">运费</view>
+          <view class="right">¥{{product.freight}}</view>
+        </view>
+        <view class="total-line display-flex flex-align-center flex-pack-justify">
+          <view class="left">实付款：</view>
+          <view class="right">¥{{product.total}}</view>
+        </view>
+      </view>
+      <view class="button display-flex flex-align-center flex-pack-end">
+        <view class="btn">确认收货</view>
+      </view>
+    </view>
+    <view class="order-item">
+      <view class="detail-line">
+        订单编号：{{order.orderCode}}
+      </view>
+      <view class="detail-line">
+        创建时间：{{order.orderCreateTime}}
+      </view>
+      <view class="detail-line">
+        付款时间：{{order.orderPayTime}}
+      </view>
+      <view class="detail-line">
+        快递公司：{{order.expressType}}
+      </view>
+      <view class="detail-line line display-flex flex-align-center flex-pack-justify">
+        快递单号：{{order.expressCode}}
+        <view class="btn">复制快递单号</view>
+      </view>
+    </view>
+    <view class="contact-btn display-flex flex-align-center" @tap="call">
+      <view class="contant display-flex flex-align-center">
+        <view class="icon">
+          <image src="http://www.mintree.cn/img/luhuishan/img/icon_contact.png"></image>
+        </view>
+        <view class="text">联系客服</view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '订单详情 '
+    };
+    data = {
+      consignee: {
+        consigneeName: '张二狗',
+        consigneePhone: '158*****2202',
+        consigneeAddress: '上海市徐汇区漕河泾新兴技术开发区古美路研祥科技大厦3楼。',
+        message: '快点发货～～'
+      },
+      product: {
+        authorName: '张二狗',
+        productStatus: '已发货',
+        productPic: 'http://www.mintree.cn/img/luhuishan/img/product_thumbnail.png',
+        productName: '我梦中的宏村',
+        productDetail: '油画/60cm*70cm/亚麻布/1920年/未装裱',
+        productCost: '888.00',
+        freight: '20',
+        total: '908.00'
+      },
+      order: {
+        orderCode: '18343934347743939',
+        orderCreateTime: '2018-07-08 19:23:29',
+        orderPayTime: '2018-07-08 19:23:29',
+        expressType: '顺丰快递',
+        expressCode: '324374483448895'
+      }
+
+    };
+    methods = {
+      call() {
+        wepy.makePhoneCall({
+          phoneNumber: '13701641836'
+        });
+      }
+    };
+
+    onLoad() {
+
+    }
+  }
+</script>

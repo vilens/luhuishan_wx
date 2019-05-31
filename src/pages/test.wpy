@@ -1,0 +1,31 @@
+<style lang="less">
+  page {
+    .wapper {
+    }
+  }
+</style>
+<template>
+  <view class="wapper">
+    test
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+
+  export default class Index extends wepy.page {
+    config = {
+      backgroundTextStyle: 'light',
+      navigationStyle:'custom',
+      // navigationBarBackgroundColor: '#fff',
+      // navigationBarTitleText: 'Test',
+      // navigationBarTextStyle: 'black'
+    };
+    data = {};
+    methods = {};
+
+    onLoad() {
+
+    }
+  }
+</script>

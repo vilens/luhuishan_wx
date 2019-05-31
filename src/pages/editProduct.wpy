@@ -1,0 +1,280 @@
+<style lang="less">
+  page {
+    background: #F8F8F8;
+    .wapper {
+      .pic-view {
+        margin-bottom: ~"20rpx";
+        background: #FFFFFF;
+        .product-pic {
+          padding-bottom: ~"20rpx";
+          border-bottom: ~"1rpx" solid #EEEEEE;
+          image {
+            width: 100%;
+          }
+        }
+        .supply-pic-view {
+          .title {
+            padding: ~"12rpx" ~"30rpx";
+            border-bottom: ~"1rpx" solid #EEEEEE;
+
+            font-family: PingFangSC-Regular;
+            font-size: ~"28rpx";
+            color: #222222;
+            .sub {
+              margin-left: ~"30rpx";
+              color: #999999;
+            }
+          }
+          .add-pic-view {
+            padding: ~"30rpx" ~"35rpx" 0;
+            .pic-block {
+              padding: 0 ~"15rpx" ~"30rpx" ~"15rpx";
+              image {
+                display: block;
+                width: ~"140rpx";
+                height: ~"140rpx";
+              }
+            }
+          }
+        }
+      }
+      .base-view {
+        background: #FFFFFF;
+        margin-bottom: ~"20rpx";
+        font-family: PingFangSC-Regular;
+        font-size: ~"28rpx";
+        .title {
+          color: #222222;
+          padding: ~"12rpx" ~"30rpx";
+          border-bottom: ~"1rpx" solid #EEEEEE;
+        }
+        .item {
+          padding: ~"25rpx" ~"30rpx";
+          color: #666666;
+          border-bottom: ~"1rpx" solid #EEEEEE;
+          .label {
+            width: ~"150rpx";
+          }
+          .input {
+          }
+          .picker {
+            image {
+              display: block;
+              width: ~"22px";
+              height: ~"22px";
+            }
+          }
+          .right-label {
+            color: #999999;
+          }
+          &.switch {
+            padding: ~"12rpx" ~"30rpx";
+          }
+        }
+      }
+      .notes-view {
+        background: #FFFFFF;
+        border-bottom: ~"1rpx" solid #EEEEEE;
+        .title {
+          padding: ~"12rpx" ~"30rpx";
+          font-family: PingFangSC-Regular;
+          font-size: ~"28rpx";
+          color: #222222;
+          .sub {
+            margin-left: ~"20rpx";
+          }
+        }
+        .content {
+          padding: ~"20rpx" ~"30rpx";
+          textarea {
+            width: 100%;
+            font-family: PingFangSC-Regular;
+            font-size: ~"24rpx";
+            min-height: ~"120rpx";
+          }
+          .textarea {
+            color: #B6B6B6;
+          }
+          .count {
+            font-family: PingFangSC-Regular;
+            font-size: ~"28rpx";
+            color: #B6B6B6;
+            text-align: right;
+          }
+        }
+      }
+      .confirm {
+        margin: ~"50rpx" ~"30rpx" ~"40rpx";
+        padding: ~"23rpx" 0;
+        background: #F77D85;
+        border-radius: ~"8rpx";
+        font-family: PingFangSC-Regular;
+        font-size: ~"30rpx";
+        color: #EEEEEE;
+        text-align: center;
+      }
+    }
+  }
+</style>
+<template>
+  <view class="wapper">
+    <view class="pic-view">
+      <view class="product-pic">
+        <image src="{{productPic}}" mode="widthFix"></image>
+      </view>
+      <view class="supply-pic-view">
+        <view class="title display-flex flex-align-center">
+          <view>补充照片</view>
+          <view class="sub">(最多5张)</view>
+        </view>
+        <view class="add-pic-view display-flex flex-align-center flex-wrap">
+          <repeat for="{{supplyPicList}}">
+            <view class="pic-block">
+              <image src="{{item.pic}}"></image>
+            </view>
+          </repeat>
+          <view class="pic-block btn-add" @tap="addSupplyPic">
+            <image src="http://www.mintree.cn/img/luhuishan/img/btn_add.png"></image>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="base-view">
+      <view class="title">基本信息</view>
+      <view class="item display-flex flex-align-center">
+        <view class="label">作品名称</view>
+        <input class="input" placeholder="我梦中的宏村"/>
+      </view>
+      <view class="item display-flex flex-align-center">
+        <view class="label">作品类型</view>
+        <picker bindchange="changeStyleType" bindcancel="bindPickerCancel" @tap="rotateAni" class="flex-1"
+                value="{{styleTypeIndex}}" range="{{styleTypeList}}">
+          <view class="picker display-flex flex-align-center flex-pack-justify">
+            {{styleTypeList[styleTypeIndex]}}
+            <image animation="{{animation}}" src="http://www.mintree.cn/img/luhuishan/img/drop.png"></image>
+          </view>
+        </picker>
+      </view>
+      <view class="item display-flex flex-align-center">
+        <view class="label">高（cm）</view>
+        <input class="input" placeholder="cm"/>
+      </view>
+      <view class="item display-flex flex-align-center">
+        <view class="label">宽（cm）</view>
+        <input class="input" placeholder="cm"/>
+      </view>
+      <view class="item display-flex flex-align-center">
+        <view class="label">创作年份</view>
+        <picker mode="date" value="{{productCreateDate}}" fields="year" class="flex-1" start="2015"
+                bindchange="bindDateChange">
+          <view class="picker">
+            {{productCreateDate}}
+          </view>
+        </picker>
+      </view>
+      <view class="item display-flex flex-align-center">
+        <view class="label">材质</view>
+        <input class="input" placeholder="材质"/>
+      </view>
+      <view class="item display-flex flex-align-center">
+        <view class="label">售价（元）</view>
+        <input class="input flex-1" placeholder="¥"/>
+        <view class="right-label">指导价格：¥{{guidePrice}}</view>
+      </view>
+      <view class="item switch display-flex flex-align-center flex-pack-justify">
+        <view class="label">是否出售</view>
+        <switch color="#F77D85" bindchange="changeIsSell" checked="{{isSell}}"/>
+      </view>
+      <view class="item switch display-flex flex-align-center flex-pack-justify">
+        <view class="label">是否已装裱</view>
+        <switch color="#F77D85" bindchange="changeIsMounting" checked="{{isMounting}}"/>
+      </view>
+    </view>
+    <view class="notes-view">
+      <view class="title display-flex flex-align-center">
+        <view>创作手札</view>
+        <view class="sub">（必填）</view>
+      </view>
+      <view class="content">
+        <textarea bindinput='watchNotes' placeholder-class="textarea" auto-height="true" maxlength="300"
+                  placeholder="请编写手札" value="{{createNotes}}"></textarea>
+        <view class="count">{{notesCount}}/300</view>
+      </view>
+    </view>
+    <view class="confirm">确认提交</view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import Util from '../common/util';
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '我的作品'
+    };
+    data = {
+      animation: '',
+      _animation: null,
+      productPic: 'http://www.mintree.cn/img/luhuishan/product/product.png',
+      supplyPicList: null,
+      styleTypeList: [
+        '国画', '丙烯', '水彩', '版画', '水粉', '书法', '油画', '素描', '摄影'
+      ],
+      styleTypeIndex: 0,
+      productCreateDate: Util.dateFormat('yyyy', new Date()),
+      guidePrice: '600',
+      isSell: true,
+      isMounting: false,
+      notesCount: 0,
+      createNotes: ''
+    };
+    methods = {
+      bindPickerCancel(e) {
+        this._animation.rotate(0).step();
+        this.animation = this._animation.export();
+      },
+      rotateAni() {
+        this._animation.rotate(180).step();
+        this.animation = this._animation.export();
+      },
+      addSupplyPic() {
+        if (this.supplyPicList === undefined || this.supplyPicList === null) {
+          this.supplyPicList = [];
+        }
+        this.supplyPicList.push({ pic: 'http://www.mintree.cn/img/luhuishan/product/product.png' });
+        this.$apply();
+      },
+      changeStyleType(e) {
+        this.styleTypeIndex = e.detail.value;
+      },
+      bindDateChange: function(e) {
+        this.productCreateDate = e.detail.value;
+      },
+      changeIsSell(e) {
+        this.isSell = e.detail.value;
+      },
+      changeIsMounting(e) {
+        this.isMounting = e.detail.value;
+      },
+      watchNotes(e) {
+        this.notesCount = (e.detail.value ? e.detail.value.length : 0);
+        if (this.notesCount <= 300) {
+          this.createNotes = e.detail.value;
+        }
+      }
+    };
+
+    onLoad() {
+      this._animation = wepy.createAnimation({
+        duration: 300,
+        timingFunction: 'ease', // "linear","ease","ease-in","ease-in-out","ease-out","step-start","step-end"
+        delay: 0,
+        // transformOrigin: '50% 50% 0',
+        success: function(res) {
+          console.info(res);
+        }
+      });
+    }
+  }
+</script>

@@ -1,0 +1,335 @@
+.display-flex() {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.display-flex {
+  .display-flex;
+}
+
+.flex-v() {
+  -webkit-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+
+  -webkit-box-direction: normal;
+  -moz-box-orient: vertical;
+  -moz-box-direction: normal;
+}
+
+.flex-v {
+  .flex-v;
+}
+
+.flex-align-center() {
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.flex-align-center {
+  .flex-align-center;
+}
+
+.flex-align-start() {
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+}
+
+.flex-align-start {
+  .flex-align-start;
+}
+
+.flex-align-end() {
+  -webkit-box-align: end;
+  -webkit-align-items: flex-end;
+  -ms-flex-align: end;
+  align-items: flex-end;
+}
+
+.flex-align-end {
+  .flex-align-end;
+}
+
+.flex-pack-start() {
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+}
+
+.flex-pack-start {
+  .flex-pack-start;
+}
+
+.flex-pack-end() {
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.flex-pack-end {
+  .flex-pack-end;
+}
+
+.flex-pack-center() {
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.flex-pack-center {
+  .flex-pack-center
+}
+
+.flex-pack-justify() {
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.flex-pack-justify {
+  .flex-pack-justify;
+}
+
+.flex-wrap() {
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.flex-wrap {
+  .flex-wrap;
+}
+
+.flex-nowrap() {
+  -webkit-flex-wrap: nowrap;
+  -webkit-box-lines: multiple;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+}
+
+.flex-nowrap {
+  .flex-nowrap;
+}
+
+.flex-1() {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  box-flex: 1;
+  -moz-box-flex: 1;
+}
+
+.flex-1 {
+  .flex-1;
+}
+
+.common-wapper {
+  background: #F8F8F8;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.radio-group {
+  .radio {
+    radio .wx-radio-input.wx-radio-input-checked::before {
+      border-radius: 50%;
+      color: #FFFFFF;
+      background-color: #000000;
+      transform: translate(-50%, -50%) scale(1);
+      -webkit-transform: translate(-50%, -50%) scale(1);
+    }
+    radio {
+      border-radius: 50%;
+      width: ~"32rpx"; /* 最好是4的倍数，不然会不在中间 */
+      height: ~"32rpx";
+      border: ~"1rpx" solid #666; /* 设置边框（外圆） */
+      font-size: 0; /* 让边框重合 */
+    }
+    radio .wx-radio-input {
+      border-radius: 50%;
+      width: ~"32rpx";
+      height: ~"32rpx";
+      border: none; /* 替换边框（隐藏原有边框） */
+    }
+    .text {
+      margin-left: ~"28rpx";
+      font-family: PingFangSC-Regular;
+      font-size: ~"24rpx";
+      color: #666666;
+    }
+  }
+}
+
+
+/*为兼容万恶的ie*/
+.ffS() {
+  font-family: "Microsoft YaHei", "微软雅黑", PingFangSC-Semibold;
+}
+.ffR() {
+  font-family: "Microsoft YaHei", "微软雅黑", PingFangSC-Regular;
+}
+.ffM() {
+  font-family: "Microsoft YaHei", "微软雅黑", PingFangSC-Medium;
+}
+.ffL() {
+  font-family: "Microsoft YaHei", "微软雅黑", PingFangSC-Light;
+}
+.ffT() {
+  font-family: "Microsoft YaHei", "微软雅黑", PingFangSC-Thin;
+}
+.ffS {
+  .ffS
+}
+.ffR {
+  .ffR
+}
+.ffM {
+  .ffM
+}
+.ffL {
+  .ffL
+}
+.ffT {
+  .ffT
+}
+.fs-14(){
+  font-size: ~"28rpx";
+}
+.fs-14{
+  .fs-14
+}
+.fs-16(){
+  font-size: ~"32rpx";
+}
+.fs-16{
+  .fs-16
+}
+.fs-18(){
+  font-size: ~"36rpx";
+}
+.fs-18{
+  .fs-18
+}
+.fs-20(){
+  font-size: ~"40rpx";
+}
+.fs-20{
+  .fs-20
+}
+.fs-22(){
+  font-size: ~"44rpx";
+}
+.fs-22{
+  .fs-22
+}
+.fs-24(){
+  font-size: ~"48rpx";
+}
+.fs-24{
+  .fs-24
+}
+.fs-26(){
+  font-size: ~"52rpx";
+}
+.fs-26{
+  .fs-26
+}
+.fs-28(){
+  font-size: ~"56rpx";
+}
+.fs-28{
+  .fs-28
+}
+.fs-30(){
+  font-size: ~"60rpx";
+}
+.fs-30{
+  .fs-30
+}
+.fs-32(){
+  font-size: ~"64rpx";
+}
+.fs-32{
+  .fs-32
+}
+.fs-34(){
+  font-size: ~"68rpx";
+}
+.fs-34{
+  .fs-34
+}
+.margin-l-1{
+  margin-left: ~"2rpx";
+}
+.margin-l-2{
+  margin-left: ~"4rpx";
+}
+.margin-l-3{
+  margin-left: ~"6rpx";
+}
+.margin-l-4{
+  margin-left: ~"8rpx";
+}
+.margin-l-5{
+  margin-left: ~"10rpx";
+}
+.margin-l-6{
+  margin-left: ~"12rpx";
+}
+.margin-l-7{
+  margin-left: ~"14rpx";
+}
+.margin-l-8{
+  margin-left: ~"16rpx";
+}
+.margin-l-9{
+  margin-left: ~"18rpx";
+}
+.margin-l-10{
+  margin-left: ~"20rpx";
+}
+.margin-r-1{
+  margin-right: ~"2rpx";
+}
+.margin-r-2{
+  margin-right: ~"4rpx";
+}
+.margin-r-3{
+  margin-right: ~"6rpx";
+}
+.margin-r-4{
+  margin-right: ~"8rpx";
+}
+.margin-r-5{
+  margin-right: ~"10rpx";
+}
+.margin-r-6{
+  margin-right: ~"12rpx";
+}
+.margin-r-7{
+  margin-right: ~"14rpx";
+}
+.margin-r-8{
+  margin-right: ~"16rpx";
+}
+.margin-r-9{
+  margin-right: ~"18rpx";
+}
+.margin-r-10{
+  margin-right: ~"20rpx";
+}
+

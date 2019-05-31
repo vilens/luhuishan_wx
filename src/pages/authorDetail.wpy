@@ -1,0 +1,230 @@
+<style lang="less">
+  page {
+    background: #F8F8F8;
+    .wapper {
+      .author-view {
+        background: #FFFFFF;
+        margin-bottom: ~"20rpx";
+        padding: ~"10rpx" 0 ~"40rpx" 0;
+        .follow-line {
+          .btn {
+            width: ~"110rpx";
+            height: ~"40rpx";
+            line-height: ~"40rpx";
+            background: #F77D85;
+            border-radius: ~"20rpx" 0 0 ~"20rpx";
+
+            font-family: PingFangSC-Regular;
+            font-size: ~"22rpx";
+            color: #FFFFFF;
+            text-align: center;
+          }
+        }
+        .avatar {
+          image {
+            margin: ~"20rpx" auto 0;
+            display: block;
+            width: ~"120rpx";
+            height: ~"120rpx";
+          }
+        }
+        .author-name {
+          margin-top: ~"36rpx";
+          text-align: center;
+          font-family: PingFangSC-Medium;
+          font-size: ~"32rpx";
+          color: #222222;
+        }
+        .product-detail {
+          text-align: center;
+          margin-top: ~"6rpx";
+          font-family: PingFangSC-Regular;
+          font-size: ~"24rpx";
+          color: #999999;
+        }
+        .social-view {
+          margin-top: ~"20rpx";
+          text-align: center;
+          font-family: PingFangSC-Regular;
+          font-size: ~"28rpx";
+          color: #F77D85;
+        }
+      }
+      .summary-view {
+        background: #FFFFFF;
+        padding: ~"30rpx";
+        .title {
+          font-family: PingFangSC-Semibold;
+          font-size: ~"30rpx";
+          color: #222222;
+        }
+        .content {
+          padding: ~"27rpx" 0 ~"20rpx";
+          font-family: PingFangSC-Light;
+          font-size: ~"24rpx";
+          color: #222222;
+          text-align: justify;
+        }
+      }
+      .view-title {
+        margin-top: ~"43rpx";
+        font-family: PingFangSC-Semibold;
+        font-size: ~"32rpx";
+        font-weight: bold;
+        color: #222222;
+        text-align: center;
+      }
+      .product-view {
+        -moz-column-count: 2; /* Firefox */
+        -webkit-column-count: 2; /* Safari and Chrome */
+        column-count: 2;
+        -moz-column-fill: auto;
+        -webkit-column-fill: auto;
+        column-fill: auto;
+        overflow: hidden;
+        column-gap: ~"20rpx";
+
+        padding: ~"56rpx" ~"30rpx" ~"70rpx";
+        .product-panel {
+          display: inline-block;
+          background: #FFFFFF;
+          border-radius: ~"8rpx";
+          margin-bottom: ~"30rpx";
+          box-shadow: 0 ~"4rpx" ~"8rpx" 0 rgba(0, 0, 0, 0.08);
+          .pic {
+            image {
+              display: block;
+              width: 100%;
+            }
+          }
+          .product-detail-view {
+            padding: ~"10rpx";
+            .title {
+              font-family: PingFangSC-Regular;
+              font-size: ~"24rpx";
+              color: #222222;
+            }
+            .detail {
+              font-family: PingFangSC-Regular;
+              font-size: ~"20rpx";
+              color: #666666;
+              text-align: justify;
+            }
+          }
+        }
+      }
+      .goIndexBtn {
+        padding: ~"23rpx" 0;
+        background: #F77D85;
+        border-radius: ~"8rpx";
+        font-family: PingFangSC-Regular;
+        font-size: ~"30rpx";
+        color: #EEEEEE;
+        text-align: center;
+        margin: 0 ~"30rpx" ~"57rpx";
+      }
+    }
+  }
+</style>
+<template>
+  <view class="wapper">
+    <view class="author-view">
+      <view class="follow-line display-flex flex-align-center flex-pack-end">
+        <view class="btn">关注</view>
+      </view>
+      <view class="avatar">
+        <image src="http://www.mintree.cn/img/luhuishan/img/wode_zuozhetouxiang.png"></image>
+      </view>
+      <view class="author-name">{{authorName}}</view>
+      <view class="product-detail">{{productCount}}件作品/{{soldCount}}件已售</view>
+      <view class="social-view">关注 {{followCount}} | 粉丝 {{fansCount}}</view>
+    </view>
+    <view class="summary-view">
+      <view class="title">简介：</view>
+      <view class="content">
+        <rich-text>
+          {{summary}}
+        </rich-text>
+      </view>
+    </view>
+    <view class="view-title">
+      全部作品
+    </view>
+    <view class="product-view">
+      <repeat for="{{productList}}">
+        <view class="product-panel" @tap="toProductDetail">
+          <view class="pic">
+            <image src="{{item.pic}}" mode="widthFix" lazy-load="true"></image>
+          </view>
+          <view class="product-detail-view">
+            <view class="title">{{item.title}}</view>
+            <view class="detail">{{item.detail}}</view>
+          </view>
+        </view>
+      </repeat>
+    </view>
+    <view class="goIndexBtn" @tap="toIndex">前往主页</view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+
+  export default class Index extends wepy.page {
+    config = {};
+    data = {
+      authorName: '张二狗',
+      productCount: 6,
+      soldCount: 6,
+      followCount: 6,
+      fansCount: 6,
+      summary: '二狗 男 九零后，标准的山东大汉，一米八八的身高，却酷爱青。水墨、摄影、雕刻、油画、书法、收藏都是二狗的最爱～～二狗的作品格调高雅，清爽宁静，读其画如入无尘之境。在鹿回山展示的所有作品均为原创，二狗注重写生，师法自然。如果哪副小画有幸入了您的慧眼，想把它挂在雅室的莫个角落，请留言～',
+      productList: [
+        {
+          title: '港湾',
+          detail: '油画/60cm*70cm/亚麻布/1920年/未装裱',
+          pic: 'http://www.mintree.cn/img/luhuishan/product/p1.png'
+        },
+        {
+          title: '江边',
+          detail: '油画/29cm*37cm/亚麻布/1920年/未装裱',
+          pic: 'http://www.mintree.cn/img/luhuishan/product/p2.png'
+        },
+        {
+          title: '“村”',
+          detail: '丙烯/60cm*40cm/布面/2018年/未装裱',
+          pic: 'http://www.mintree.cn/img/luhuishan/product/p3.png'
+        },
+        {
+          title: '姑娘',
+          detail: '油画/29cm*37cm/亚麻布/1920年/未装裱',
+          pic: 'http://www.mintree.cn/img/luhuishan/product/p4.png'
+        },
+        {
+          title: '幸福的日子',
+          detail: '油画/29cm*37cm/亚麻布/1920年/未装裱',
+          pic: 'http://www.mintree.cn/img/luhuishan/product/p5.png'
+        },
+        { title: '挂毯', detail: '油画/29cm*37cm/亚麻布/1920年/未装裱', pic: 'http://www.mintree.cn/img/luhuishan/product/p6.png' }
+      ]
+    };
+    methods = {
+      toIndex() {
+        wepy.reLaunch({
+          url: 'index'
+        });
+      },
+      toProductDetail(){
+        wepy.navigateTo({
+          url: 'productDetail'
+        });
+      }
+    };
+
+    onLoad() {
+      wepy.setNavigationBarTitle({
+        title: '作者 张二狗'
+      });
+    }
+  }
+</script>

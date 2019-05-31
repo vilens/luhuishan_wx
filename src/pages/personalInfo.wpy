@@ -1,0 +1,280 @@
+<style lang="less">
+  @line-height-108: ~"108rpx";
+  @background: #FFFFFF;
+
+  page {
+    background: #F8F8F8;
+    .wapper {
+      .avatar-view {
+        padding: ~"30rpx";
+        .avatar {
+          overflow: hidden;
+          width: ~"120rpx";
+          height: ~"120rpx";
+          border-radius: 50%;
+          image {
+            display: block;
+            width: ~"120rpx";
+            height: ~"120rpx";
+          }
+        }
+        .avatar-text {
+          margin-left: ~"65rpx";
+          .avatar-title {
+            font-family: PingFangSC-Regular;
+            font-size: ~"28rpx";
+            color: #222222;
+            text-align: justify;
+          }
+          .avatar-subtitle {
+            font-family: PingFangSC-Regular;
+            font-size: ~"24rpx";
+            color: #999999;
+            text-align: justify;
+          }
+        }
+
+      }
+      .line {
+        padding: ~"34rpx" ~"30rpx";
+        background: @background;
+        border-bottom: ~"1rpx" solid #EEEEEE;
+        .title {
+          font-family: PingFangSC-Regular;
+          font-size: ~"28rpx";
+          color: #222222;
+          text-align: justify;
+        }
+        .input {
+          margin-left: ~"125rpx";
+          font-family: PingFangSC-Regular;
+          font-size: ~"28rpx";
+          color: #999999;
+          text-align: justify;
+        }
+        .icon {
+          margin-left: ~"125rpx";
+          image {
+            display: block;
+            width: ~"60rpx";
+            height: ~"60rpx";
+          }
+        }
+        picker {
+          margin-left: ~"125rpx";
+        }
+        .picker {
+          font-family: PingFangSC-Regular;
+          font-size: ~"28rpx";
+          color: #999999;
+          text-align: justify;
+          image {
+            display: block;
+            width: ~"22px";
+            height: ~"22px";
+          }
+        }
+        .textarea {
+          margin-top: ~"30rpx";
+          width: 100%;
+          font-family: PingFangSC-Regular;
+          font-size: ~"24rpx";
+          color: #999999;
+          text-align: justify;
+          min-height: ~"120rpx";
+        }
+      }
+      .line-title {
+        margin-top: ~"20rpx";
+        padding: ~"15rpx" ~"30rpx";
+        background: @background;
+        border-bottom: ~"1rpx" solid #EEEEEE;
+        .title {
+          font-family: PingFangSC-Medium;
+          font-size: ~"28rpx";
+          color: #222222;
+          text-align: justify;
+          font-weight: bold;
+        }
+      }
+
+      .idintify-btn {
+        margin: ~"30rpx";
+        background: #F77D85;
+        border-radius: ~"8rpx";
+        font-family: PingFangSC-Regular;
+        font-size: ~"28rpx";
+        color: #FFFFFF;
+      }
+      .modify-btn {
+        margin: ~"30rpx";
+        color: #F77D85;
+        border-radius: ~"8rpx";
+        font-family: PingFangSC-Regular;
+        font-size: ~"28rpx";
+        background: white;
+        border: ~"1rpx" solid #F77D85;
+      }
+      .bind-btn {
+        line-height: ~"60rpx";
+        color: #F77D85;
+        border-radius: ~"8rpx";
+        font-family: PingFangSC-Regular;
+        font-size: ~"28rpx";
+        background: white;
+        border: ~"1rpx" solid #F77D85;
+      }
+      .modify-btn-hover, .bind-btn-hover {
+        background: rgba(247, 125, 133, .5);
+      }
+    }
+  }
+</style>
+<template>
+  <form bindsubmit="formSubmit" bindreset="formReset" report-submit="true">
+    <view class="wapper">
+      <view class="avatar-view display-flex flex-align-center">
+        <view class="avatar">
+          <!--<image src="http://www.mintree.cn/img/luhuishan/img/avatar.png"></image>-->
+          <open-data type="userAvatarUrl"></open-data>
+        </view>
+        <view class="avatar-text flex-1">
+          <view class="avatar-title">更换头像</view>
+          <view class="avatar-subtitle">作者最好使用真人头像哦！</view>
+        </view>
+        <view wx:if="{{userInfo.wxSex==1}}" class="iconfont iconmale male-color fs-24 margin-r-10"></view>
+        <view wx:if="{{userInfo.wxSex==0}}" class="iconfont iconfemale female-color fs-24 margin-r-10"></view>
+      </view>
+      <view class="line display-flex flex-align-center">
+        <view class="title">昵称</view>
+        <input type="text" class="input flex-1" name="username" placeholder="{{userInfo.username}}"/>
+        <!--<button class="modify-btn" hover-class="modify-btn-hover">修改</button>-->
+      </view>
+      <view class="line display-flex flex-align-center">
+        <view class="title">手机</view>
+        <input type="number" class="input flex-1" name="mobile" placeholder="{{userInfo.mobile}}"/>
+        <!--<view wx:if="{{item.type=='number'}}" class="iconfont iconwechat-1 wechat-green fs-24 margin-r-10"> </view>-->
+        <button class="bind-btn fs-14" hover-class="bind-btn-hover" open-type="getPhoneNumber"
+                bindgetphonenumber="getPhoneNumber">绑定微信
+        </button>
+      </view>
+
+      <button class="modify-btn" hover-class="modify-btn-hover" form-type="submit">保存</button>
+      <button class="idintify-btn" @tap="toIdentify">认证作者</button>
+    </view>
+  </form>
+  <phoneDialog :isShow.sync="showPhoneDialog"></phoneDialog>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import PhoneDialog from '../components/phoneDialog';
+  import Util from '../common/util';
+  import API from '../common/api';
+  import BIZ from '../common/biz';
+  import GLOBAL from '../common/global';
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '个人资料'
+    };
+    components = {
+      phoneDialog: PhoneDialog
+    };
+    data = {
+      userInfo: null,
+      showPhoneDialog: false
+    };
+    methods = {
+      toIdentify() {
+        GLOBAL.userInfo = this.userInfo
+        wepy.navigateTo({
+          url: 'identifyAuthor'
+        });
+      },
+      getPhoneNumber(e) {
+        let that = this;
+        BIZ.wxLogin().then(function(res) {
+          let info = API.decryption(res.session_key, e.detail.iv, e.detail.encryptedData);
+          let user = {};
+          user.wxOpenid = wepy.getStorageSync('openid');
+          let userCache = wepy.getStorageSync('userInfo');
+          user.mobile = info.phoneNumber;
+          if (userCache.mobile != user.mobile) {
+            BIZ.saveUser(user).then(function(su_res) {
+              if (su_res && su_res.data && su_res.data.code == 200) {
+                wepy.setStorageSync('userInfo', su_res.data.result);
+                that.userInfo.mobile = su_res.data.result.mobile;
+                that.$apply();
+              } else {
+                wx.showToast({
+                  title: su_res.errMsg,
+                  icon: none
+                });
+              }
+            });
+          }
+        });
+      },
+      formSubmit(e) {
+        let that = this;
+        let formData = e.detail.value;
+        if (formData.username || formData.mobile) {
+          let user = {};
+          user.wxOpenid = wepy.getStorageSync('openid');
+
+          if (formData.username) {
+            user.username = formData.username;
+          }
+          if (formData.mobile) {
+            user.mobile = formData.mobile;
+            if (!(/^1[34578]\d{9}$/.test(user.mobile))) {
+              wepy.showToast({
+                title: '手机号码有误',
+                icon: 'none'
+              });
+              return;
+            }
+          }
+          BIZ.saveUser(user).then(function(res) {
+            if (res && res.data && res.data.code == 200) {
+              wepy.setStorageSync('userInfo', res.data.result);
+              that.userInfo = res.data.result;
+              that.$apply();
+            }
+          });
+        } else {
+          wepy.showToast({
+            title: '不需要保存',
+            icon: 'none'
+          });
+        }
+      }
+    };
+
+    events = {
+      updatePhone: function(phone) {
+        this.userInfo.mobile = phone;
+        this.$apply();
+      }
+
+    };
+
+    loadUserinfo() {
+      let that = this;
+      let user = {};
+      user.wxOpenid = wepy.getStorageSync('openid');
+      BIZ.findUser(user).then(function(fu_res) {
+        if (fu_res && fu_res.data && fu_res.data.code == 200) {
+          that.userInfo = fu_res.data.result;
+          that.$apply();
+        }
+      });
+    }
+
+
+    onLoad() {
+      this.loadUserinfo();
+    }
+  }
+</script>

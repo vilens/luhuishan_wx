@@ -1,0 +1,249 @@
+<style lang="less">
+  @color-red: #F77D85;
+  page {
+    .wapper-main {
+      background: #FFFFFF;
+      padding: ~"20rpx" 0 ~"128rpx" 0;
+      .search-bar {
+        margin: 0 ~"30rpx" ~"20rpx";
+        background: #F2F2F2;
+        border-radius: ~"8rpx";
+        padding: ~"15rpx" ~"30rpx";
+        .icon-search {
+          image {
+            display: block;
+            width: ~"40rpx";
+            height: ~"40rpx";
+          }
+        }
+        .text {
+          margin-left: ~"20rpx";
+          font-family: PingFangSC-Regular;
+          font-size: ~"28rpx";
+          color: #999999;
+          text-align: center;
+        }
+      }
+      .banner-view {
+        height: ~"240rpx";
+        padding-bottom: ~"30rpx";
+        .my-scroll {
+          white-space: nowrap;
+          .s-item {
+            margin-left: ~"30rpx";
+            width: ~"640rpx";
+            display: inline-block;
+            image {
+              display: block;
+              width: ~"640rpx";
+              height: ~"240rpx";
+            }
+          }
+        }
+      }
+      .title-text {
+        margin-left: ~"30rpx";
+        font-family: PingFangSC-Semibold;
+        font-size: ~"36rpx";
+        color: #222222;
+        text-align: justify;
+      }
+      .product-view {
+        margin: ~"30rpx" auto 0;
+        width: ~"690rpx";
+        .product-panel {
+          padding: ~"30rpx" 0 ~"20rpx";
+          border-bottom: ~"1rpx" solid #EEEEEE;
+          .author-line {
+            padding-bottom: ~"20rpx";
+            .avatar {
+              image {
+                display: block;
+                width: ~"70rpx";
+                height: ~"70rpx";
+              }
+            }
+            .name {
+              font-family: PingFangSC-Regular;
+              font-size: ~"28rpx";
+              color: #222222;
+              text-align: justify;
+              margin: 0 0 0 ~"20rpx";
+            }
+            .follow-view {
+              .toFollow {
+                color: @color-red;
+              }
+              .followed {
+                color: @color-red;
+              }
+            }
+          }
+          .product-pic {
+            image {
+              display: block;
+              width: ~"690rpx";
+            }
+          }
+          .product-line {
+            padding-top: ~"20rpx";
+            .product-detail-view {
+              .title {
+                font-family: PingFangSC-Regular;
+                font-size: ~"30rpx";
+                color: #222222;
+              }
+              .detail {
+                margin-top: ~"10rpx";
+                font-family: PingFangSC-Regular;
+                font-size: ~"24rpx";
+                color: #666666;
+                text-align: justify;
+              }
+            }
+            .product-like-view {
+              .icon-heart {
+                image {
+                  display: block;
+                  width: ~"40rpx";
+                  height: ~"40rpx";
+                }
+              }
+              .like-count {
+                margin-left: ~"10rpx";
+                font-family: PingFangSC-Regular;
+                font-size: ~"24rpx";
+                line-height: ~"40rpx";
+                color: #999999;
+                text-align: justify;
+              }
+            }
+          }
+        }
+      }
+    }
+    .text-font {
+      font-family: PingFangSC-Regular;
+      font-size: ~"28rpx";
+    }
+  }
+</style>
+<template>
+  <view class="wapper-main">
+    <view class="search-bar display-flex flex-align-center" @tap="toSearch">
+      <view class="icon-search">
+        <image src="http://www.mintree.cn/img/luhuishan/img/icon_shousuo.png"></image>
+      </view>
+      <text class="text">作品名称/作者</text>
+    </view>
+    <view class="banner-view">
+      <scroll-view scroll-x class="my-scroll">
+        <repeat for="{{bannerList}}">
+          <view id="img{{index}}" class="s-item">
+            <image src="{{item.pic}}" lazy-load="true"></image>
+          </view>
+        </repeat>
+      </scroll-view>
+    </view>
+    <view class="title-text">今日推荐</view>
+    <view class="product-view" catchtap="toProductDetail">
+      <view wx:for="{{productList}}" wx:key="item" class="product-panel">
+        <view class="author-line display-flex flex-align-center flex-pack-justify" catchtap="toAuthorDetail">
+          <view class="avatar ">
+            <image src="{{item.authorAvatar}}" lazy-load="true"></image>
+          </view>
+          <view class="name flex-1">{{item.authorName}}</view>
+          <view class="follow-view">
+            <view wx:if="{{!item.isFollow}}" class="text-font toFollow" catchtap="follow('{{index}}')">+ 关注</view>
+            <view wx:if="{{item.isFollow}}" class="text-font followed">已关注</view>
+          </view>
+        </view>
+        <view class="product-pic">
+          <image src="{{item.productPic}}" mode="widthFix" lazy-load="true"></image>
+        </view>
+        <view class="product-line display-flex flex-pack-start flex-pack-justify">
+          <view class="product-detail-view">
+            <view class="title">{{item.productTitle}}</view>
+            <view class="detail">{{item.productDetail}}</view>
+          </view>
+          <view class="product-like-view display-flex flex-pack-start">
+            <view class="icon-heart" catchtap="isToLike('{{index}}')">
+              <image wx:if="{{item.isLike}}" src="http://www.mintree.cn/img/luhuishan/img/xihuan.png"></image>
+              <image wx:if="{{!item.isLike}}" src="http://www.mintree.cn/img/luhuishan/img/buxihuan.png"></image>
+            </view>
+            <view class="like-count">{{item.likeCount}}喜欢</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+
+  export default class Index extends wepy.component {
+    data = {
+      bannerList: [
+        { pic: 'http://www.mintree.cn/img/luhuishan/img/banner1.png' },
+        { pic: 'http://www.mintree.cn/img/luhuishan/img/banner2.png' }
+      ],
+      productList: [
+        {
+          authorAvatar: 'http://www.mintree.cn/img/luhuishan/img/zuozhe1.png',
+          authorName: '张狗',
+          isFollow: false,
+          productPic: 'http://www.mintree.cn/img/luhuishan/img/hua01.png',
+          productTitle: '白裙少女',
+          productDetail: '油画/60cm*70cm/亚麻布/1920年/未装裱',
+          likeCount: 102,
+          isLike: true
+        },
+        {
+          authorAvatar: 'http://www.mintree.cn/img/luhuishan/img/zuozhe2.png',
+          authorName: '张二狗',
+          isFollow: true,
+          productPic: 'http://www.mintree.cn/img/luhuishan/img/hua02.png',
+          productTitle: '坚家山回忆5',
+          productDetail: '油画/60cm*70cm/亚麻布/1920年/未装裱',
+          likeCount: 102,
+          isLike: false
+        }
+      ]
+    };
+    methods = {
+      follow(ind) {
+        this.productList[ind].isFollow = !this.productList[ind].isFollow;
+      },
+      isToLike(index) {
+        console.info(this.productList[index]);
+        this.productList[index].isLike = !this.productList[index].isLike;
+        if (this.productList[index].isLike) {
+          this.productList[index].likeCount++;
+        } else {
+          this.productList[index].likeCount--;
+        }
+      },
+      toSearch() {
+        wepy.navigateTo({
+          url: 'searchView'
+        });
+      },
+      toProductDetail() {
+        wepy.navigateTo({
+          url: 'productDetail'
+        });
+      },
+      toAuthorDetail(){
+        wepy.navigateTo({
+          url: 'authorDetail'
+        });
+      }
+
+    };
+
+    onLoad() {
+
+    }
+  }
+</script>

@@ -1,0 +1,242 @@
+<style lang="less">
+  @line-height-108: ~"108rpx";
+  @background: #FFFFFF;
+
+  page {
+    .wapper {
+      .line {
+        padding: ~"34rpx" ~"30rpx";
+        background: @background;
+        border-bottom: ~"1rpx" solid #EEEEEE;
+        .title {
+          font-family: PingFangSC-Regular;
+          font-size: ~"28rpx";
+          color: #222222;
+          text-align: justify;
+        }
+        .input {
+          margin-left: ~"125rpx";
+          font-family: PingFangSC-Regular;
+          font-size: ~"28rpx";
+          color: #999999;
+          text-align: justify;
+        }
+        .icon {
+          margin-left: ~"125rpx";
+          image {
+            display: block;
+            width: ~"40rpx";
+            height: ~"40rpx";
+          }
+        }
+        picker {
+          margin-left: ~"125rpx";
+        }
+        .picker {
+          font-family: PingFangSC-Regular;
+          font-size: ~"28rpx";
+          color: #999999;
+          text-align: justify;
+          image {
+            display: block;
+            width: ~"22px";
+            height: ~"22px";
+          }
+        }
+        .textarea {
+          margin-top: ~"30rpx";
+          width: 100%;
+          font-family: PingFangSC-Regular;
+          font-size: ~"24rpx";
+          color: #999999;
+          text-align: justify;
+          min-height: ~"120rpx";
+        }
+      }
+      .line-title {
+        margin-top: ~"20rpx";
+        padding: ~"15rpx" ~"30rpx";
+        background: @background;
+        border-bottom: ~"1rpx" solid #EEEEEE;
+        .title {
+          font-family: PingFangSC-Medium;
+          font-size: ~"28rpx";
+          color: #222222;
+          text-align: justify;
+          font-weight: bold;
+        }
+      }
+      .confirm {
+        margin: ~"30rpx";
+        background: #F77D85;
+        border-radius: ~"8rpx";
+        font-family: PingFangSC-Regular;
+        font-size: ~"28rpx";
+        color: #FFFFFF;
+      }
+    }
+  }
+</style>
+<template>
+  <form bindsubmit="formSubmit" bindreset="formReset" report-submit="true">
+    <view class="wapper">
+      <view class="line-title">
+        <view class="title">作者基本信息</view>
+      </view>
+      <view class="line display-flex flex-align-center">
+        <view class="title">姓名</view>
+        <input class="input flex-1" name="name" value="{{painter.name}}" placeholder="作者名字"/>
+      </view>
+      <view class="line display-flex flex-align-center">
+        <view class="title">风格</view>
+        <picker class="flex-1" name="style" bindchange="bindPickerChange"
+                bindcancel="bindPickerCancel" @tap="rotateAni" value="{{styleIndex}}"
+                range="{{styleList}}" range-key="name">
+          <view class="picker display-flex flex-align-center flex-pack-justify">
+            <text>{{styleList[styleIndex].name}}</text>
+            <image animation="{{animation}}" src="http://www.mintree.cn/img/luhuishan/img/drop.png"></image>
+          </view>
+        </picker>
+      </view>
+      <view class="line display-flex flex-align-center">
+        <view class="title">城市</view>
+        <input class="input flex-1" name="city" value="{{painter.city}}" placeholder="城市"/>
+      </view>
+      <view class="line display-flex flex-align-center">
+        <view class="title">生日</view>
+        <picker class="flex-1" mode="date" value="{{date}}" name="birthday" start="1950-01-01"
+                end="2017-12-31" bindchange="bindDateChange">
+          <view class="picker">
+            {{date}}
+          </view>
+        </picker>
+      </view>
+      <view class="line">
+        <view class="title">个人简介</view>
+        <textarea class="textarea" name="summary" auto-height="true" value="{{painter.summary}}"
+                  placeholder="请用140个字介绍自己"></textarea>
+      </view>
+      <button class="confirm" form-type="submit">{{painter?'保存':'认证'}}</button>
+    </view>
+  </form>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import Util from '../common/util';
+  import BIZ from '../common/biz';
+  import GLOBAL from '../common/global';
+
+  export default class Index extends wepy.page {
+    config = {
+      backgroundTextStyle: 'light',
+      // navigationBarBackgroundColor: '#fff',
+      navigationBarTitleText: '认证申请'
+      // navigationBarTextStyle: 'black'
+    };
+    data = {
+      date: '',
+      animation: '',
+      _animation: null,
+      styleIndex: 0,
+      styleList: null,
+      painter: null
+    };
+    methods = {
+      bindPickerChange(e) {
+        this.styleIndex = e.detail.value;
+        this._animation.rotate(0).step();
+        this.animation = this._animation.export();
+      },
+      bindPickerCancel(e) {
+        this._animation.rotate(0).step();
+        this.animation = this._animation.export();
+      },
+      rotateAni() {
+        this._animation.rotate(180).step();
+        this.animation = this._animation.export();
+      },
+      bindDateChange(e) {
+        this.date = e.detail.value;
+      },
+      formSubmit(e) {
+        let formData = e.detail.value;
+        let painter = {};
+        if (this.painter && this.painter.id) {
+          painter.id = this.painter.id;
+        }
+        if (GLOBAL.userInfo) {
+          painter.userId = GLOBAL.userInfo.id;
+        }
+
+
+        if (!formData.name || formData.name == '' || formData.name.trim() == '') {
+          wepy.showToast({
+            title: '请填写姓名',
+            icon: 'none'
+          });
+          return;
+        }
+        if (!formData.city || formData.city == '' || formData.city.trim() == '') {
+          wepy.showToast({
+            title: '请填写城市',
+            icon: 'none'
+          });
+          return;
+        }
+        if (!formData.birthday || formData.birthday == '' || formData.birthday.trim() == '') {
+          wepy.showToast({
+            title: '请填写生日',
+            icon: 'none'
+          });
+          return;
+        }
+        console.info(formData);
+        painter.name = formData.name;
+        painter.city = formData.city;
+        painter.birthday = formData.birthday;
+        painter.summary = formData.summary;
+        console.info(painter);
+        BIZ.savePainter(painter).then(function(res) {
+          console.info(res);
+        });
+      }
+    };
+
+    onLoad() {
+      let that = this;
+      this.initView();
+
+      let painter = {};
+      painter.wxOpenid = wepy.getStorageSync('openid');
+      BIZ.findPainter(painter).then(function(res) {
+        if (res && res.data.code == 200) {
+          that.painter = res.data.result;
+          that.$apply();
+        }
+        console.info(res);
+      });
+
+      BIZ.allPainterTag().then(function(res) {
+        if (res && res.data.code == 200) {
+          that.styleList = res.data.result;
+          that.$apply();
+        }
+      });
+    }
+
+    initView() {
+      this._animation = wepy.createAnimation({
+        duration: 300,
+        timingFunction: 'ease', // "linear","ease","ease-in","ease-in-out","ease-out","step-start","step-end"
+        delay: 0,
+        // transformOrigin: '50% 50% 0',
+        success: function(res) {
+          console.info(res);
+        }
+      });
+
+      this.date = Util.dateFormat('yyyy-MM-dd', new Date('1950-01-01'));
+    }
+  }
+</script>

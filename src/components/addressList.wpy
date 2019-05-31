@@ -1,0 +1,101 @@
+<style lang="less">
+  .address-list {
+    margin-top: ~"20rpx";
+    padding-bottom: ~"128rpx";
+    .item {
+      margin: 0 0 ~"20rpx" 0;
+      background: #FFFFFF;
+      .consignee-line {
+        border-bottom: ~"1rpx" solid #EEEEEE;
+        padding: ~"30rpx";
+        font-family: PingFangSC-Regular;
+        font-size: ~"32rpx";
+        color: #222222;
+        .address {
+          margin-top: ~"13rpx";
+          font-size: ~"28rpx";
+          color: #666666;
+        }
+        .name {
+        }
+        .phone {
+          margin-left: ~"20rpx";
+        }
+      }
+      .botton {
+        padding: ~"28rpx" ~"30rpx";
+        .btn {
+          border-radius: ~"100rpx";
+          font-family: PingFangSC-Regular;
+          font-size: ~"24rpx";
+          padding: ~"7rpx" ~"16rpx";
+          color: #666666;
+          .btn-edit {
+            margin-right: ~"10rpx";
+          }
+          .btn-delete {
+            margin-left: ~"10rpx";
+          }
+        }
+      }
+    }
+  }
+</style>
+<template>
+  <view wx:if="{{addressList && addressList.length>0}}" class="address-list">
+    <repeat for="{{addressList}}">
+      <view class="item">
+        <view class="consignee-line">
+          <text name="name">{{item.name}}</text>
+          <text class="phone">{{item.phone}}</text>
+          <view class="address">{{item.address}}</view>
+        </view>
+        <view class="botton display-flex flex-align-center flex-pack-justify">
+          <radio-group class="radio-group" bindchange="radioChange">
+            <label class="radio display-flex flex-align-center ">
+              <radio value="{{index}}" checked="{{item.isDefault}}"/>
+              <view class="text">默认地址</view>
+            </label>
+          </radio-group>
+          <view class="btn">
+            <text class="btn-edit">编辑</text>
+            <text>|</text>
+            <text class="btn-delete">删除</text>
+          </view>
+        </view>
+      </view>
+    </repeat>
+  </view>
+  <view wx:else class="nothing">
+    <view class="nothing-view">
+      <image src="http://www.mintree.cn/img/luhuishan/img/myAddress_default.png" mode="widthFix"></image>
+      <view class="text">暂无收货地址</view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+
+  export default class Index extends wepy.component {
+    data = {
+      addressList: [
+        { name: '张二狗', phone: '137****1836', address: '上海市徐汇区漕河泾新兴技术开发区古美路研祥科技大厦3楼。', isDefault: false },
+        { name: '张二狗', phone: '137****1836', address: '上海市徐汇区漕河泾新兴技术开发区古美路研祥科技大厦3楼。', isDefault: false },
+        { name: '张二狗', phone: '137****1836', address: '上海市徐汇区漕河泾新兴技术开发区古美路研祥科技大厦3楼。', isDefault: false }
+      ]
+    };
+    methods = {
+      radioChange(e) {
+        this.addressList.forEach(function(item, index) {
+          item.isDefault = false;
+        });
+        this.addressList[e.detail.value].isDefault = true;
+      }
+    };
+
+    onLoad() {
+
+    }
+  }
+</script>

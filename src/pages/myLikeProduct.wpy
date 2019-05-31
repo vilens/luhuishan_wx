@@ -1,0 +1,144 @@
+<style lang="less">
+  page {
+    background: #F8F8F8;
+    .wapper {
+      .nothing {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        .nothing-view {
+          position: absolute;
+          top: 50%;
+          width: 100%;
+          margin-top: ~"-278rpx";
+          image {
+            margin: 0 auto;
+            display: block;
+            width: ~"168rpx";
+            height: ~"168rpx";
+          }
+          .text {
+            margin-top: ~"68rpx";
+            font-family: PingFangSC-Regular;
+            font-size: ~"30rpx";
+            color: #999999;
+            text-align: center;
+          }
+        }
+      }
+      .product-view {
+        -moz-column-count: 2; /* Firefox */
+        -webkit-column-count: 2; /* Safari and Chrome */
+        column-count: 2;
+        -moz-column-fill: auto;
+        -webkit-column-fill: auto;
+        column-fill: auto;
+        overflow: hidden;
+        column-gap: ~"20rpx";
+
+        padding: ~"30rpx" ~"30rpx";
+        .product-panel {
+          display: inline-block;
+          background: #FFFFFF;
+          border-radius: ~"8rpx";
+          margin-bottom: ~"30rpx";
+          box-shadow: 0 ~"4rpx" ~"8rpx" 0 rgba(0, 0, 0, 0.08);
+          .pic {
+            image {
+              display: block;
+              width: 100%;
+            }
+          }
+          .product-detail-view {
+            padding: ~"10rpx";
+            .title {
+              font-family: PingFangSC-Regular;
+              font-size: ~"24rpx";
+              color: #222222;
+            }
+            .detail {
+              font-family: PingFangSC-Regular;
+              font-size: ~"20rpx";
+              color: #666666;
+              text-align: justify;
+            }
+          }
+        }
+      }
+    }
+  }
+</style>
+<template>
+  <view class="wapper">
+    <view wx:if="{{myProductList && myProductList.length>0}}" class="product-view">
+      <repeat for="{{myProductList}}">
+        <view class="product-panel" @tap="toProductDetail">
+          <view class="pic">
+            <image src="{{item.pic}}" mode="widthFix" lazy-load="true"></image>
+          </view>
+          <view class="product-detail-view">
+            <view class="title">{{item.title}}</view>
+            <view class="detail">{{item.detail}}</view>
+          </view>
+        </view>
+      </repeat>
+    </view>
+    <view wx:else class="nothing">
+      <view class="nothing-view">
+        <image src="http://www.mintree.cn/img/luhuishan/img/myLike_default.png" mode="widthFix"></image>
+        <view class="text">您还没有喜欢的作品哦</view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '我喜欢的作品'
+    };
+    data = {
+      myProductList: [
+        {
+          title: '港湾',
+          detail: '油画/60cm*70cm/亚麻布/1920年/未装裱',
+          pic: 'http://www.mintree.cn/img/luhuishan/product/p1.png'
+        },
+        {
+          title: '江边',
+          detail: '油画/29cm*37cm/亚麻布/1920年/未装裱',
+          pic: 'http://www.mintree.cn/img/luhuishan/product/p2.png'
+        },
+        {
+          title: '“村”',
+          detail: '丙烯/60cm*40cm/布面/2018年/未装裱',
+          pic: 'http://www.mintree.cn/img/luhuishan/product/p3.png'
+        },
+        {
+          title: '姑娘',
+          detail: '油画/29cm*37cm/亚麻布/1920年/未装裱',
+          pic: 'http://www.mintree.cn/img/luhuishan/product/p4.png'
+        },
+        {
+          title: '幸福的日子',
+          detail: '油画/29cm*37cm/亚麻布/1920年/未装裱',
+          pic: 'http://www.mintree.cn/img/luhuishan/product/p5.png'
+        },
+        { title: '挂毯', detail: '油画/29cm*37cm/亚麻布/1920年/未装裱', pic: 'http://www.mintree.cn/img/luhuishan/product/p6.png' }
+      ]
+    };
+    methods = {
+      toProductDetail() {
+        wepy.navigateTo({
+          url: 'productDetail'
+        });
+      },
+    };
+
+    onLoad() {
+
+    }
+  }
+</script>

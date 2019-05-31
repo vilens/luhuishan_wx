@@ -1,0 +1,297 @@
+<style lang="less">
+  page {
+    background: #F8F8F8;
+    .wapper {
+      margin-top: ~"20rpx";
+      .consignee-item {
+        background: #FFFFFF;
+        margin-top: ~"20rpx";
+
+        font-family: PingFangSC-Regular;
+        font-size: ~"28rpx";
+        color: #666666;
+        .consignee-person {
+          padding: ~"20rpx" ~"30rpx" ~"10rpx";
+          .title {
+            width: ~"150rpx";
+          }
+          .name {
+            margin-left: ~"10rpx";
+          }
+          .phone {
+            margin-left: ~"32rpx";
+          }
+        }
+        .consignee-address {
+          padding: 0 ~"30rpx" ~"20rpx";
+          border-bottom: ~"1rpx" solid #EEEEEE;
+          .title {
+            width: ~"150rpx";
+          }
+        }
+      }
+      .consignee-none {
+        .btn-add {
+          font-family: PingFangSC-Regular;
+          font-size: ~"24rpx";
+          color: #999999;
+          text-align: center;
+          padding: ~"84rpx" 0;
+          background: #FFFFFF;
+        }
+        .stripe-line {
+          image {
+            display: block;
+            width: 100%;
+          }
+        }
+      }
+      .product-item {
+        background: #FFFFFF;
+        margin-top: ~"20rpx";
+        .author-line {
+          padding: ~"12rpx" ~"30rpx";
+          border-bottom: ~"1rpx" solid #EEEEEE;
+          .name {
+            font-family: PingFangSC-Regular;
+            font-size: ~"28rpx";
+            color: #222222;
+          }
+        }
+        .product-line {
+          padding: ~"30rpx";
+          border-bottom: ~"1rpx" solid #EEEEEE;
+          .pic {
+            image {
+              display: block;
+              width: ~"164rpx";
+              height: ~"164rpx";
+            }
+          }
+          .product-view {
+            margin-left: ~"35rpx";
+            font-family: PingFangSC-Regular;
+            .name {
+              font-size: ~"32rpx";
+              color: #000000;
+            }
+            .detail {
+              margin-top: ~"10rpx";
+              font-size: ~"24rpx";
+              color: #666666;
+              text-align: center;
+              height: ~"70rpx";
+              line-height: ~"30rpx";
+            }
+            .cost {
+              opacity: 0.88;
+              font-size: ~"30rpx";
+              color: #FF4A56;
+            }
+          }
+        }
+        .buyer-message-line {
+          padding: ~"34rpx" ~"30rpx";
+          border-bottom: ~"1rpx" solid #EEEEEE;
+          .title {
+            font-family: PingFangSC-Regular;
+            font-size: ~"28rpx";
+            color: #222222;
+          }
+          input {
+            margin-left: ~"30rpx";
+            font-family: PingFangSC-Regular;
+            font-size: ~"28rpx";
+          }
+          .input {
+            color: #999999;
+          }
+        }
+        .freight-line {
+          padding: ~"34rpx" ~"30rpx";
+          border-bottom: ~"1rpx" solid #EEEEEE;
+          font-family: PingFangSC-Regular;
+          font-size: ~"28rpx";
+          color: #222222;
+          .left {
+          }
+          .right {
+            opacity: 0.88;
+            font-size: ~"30rpx";
+          }
+        }
+        .cost-line {
+          padding: ~"34rpx" ~"30rpx";
+          border-bottom: ~"1rpx" solid #EEEEEE;
+          font-family: PingFangSC-Regular;
+          font-size: ~"28rpx";
+          color: #999999;
+          .right {
+            .cost {
+              margin-left: ~"20rpx";
+              opacity: 0.88;
+              font-family: PingFangSC-Regular;
+              font-size: ~"30rpx";
+              color: #FF4A56;
+            }
+          }
+        }
+      }
+      .contact-btn {
+        margin-top: ~"25rpx";
+        background: #FFFFFF;
+        padding: ~"34rpx" 0;
+        .contant {
+          width: ~"160rpx";
+          margin: 0 auto;
+          .icon {
+            image {
+              display: block;
+              width: ~"40rpx";
+              height: ~"40rpx";
+            }
+          }
+          .text {
+            margin-left: ~"20rpx";
+            font-family: PingFangSC-Regular;
+            font-size: ~"24rpx";
+            color: #000000;
+          }
+        }
+
+      }
+      .btn-pay-wx {
+        background: #1AAD19;
+        border-radius: ~"8rpx";
+        padding: ~"23rpx" 0;
+        margin: ~"80rpx" ~"30rpx" ~"40rpx";
+        font-family: PingFangSC-Regular;
+        font-size: ~"30rpx";
+        color: #FFFFFF;
+        text-align: center;
+      }
+    }
+  }
+</style>
+<template>
+  <view class="wapper">
+    <view wx:if="{{consignee}}" class="consignee-item">
+      <view class="consignee-person display-flex flex-align-center">
+        <view class="title">收货人：</view>
+        <view class="name">
+          {{consignee.consigneeName}}
+        </view>
+        <view class="phone">
+          {{consignee.consigneePhone}}
+        </view>
+      </view>
+      <view class="consignee-address display-flex flex-align-start">
+        <view class="title">收货地址：</view>
+        <view class="flex-1">
+          {{consignee.consigneeAddress}}
+        </view>
+      </view>
+    </view>
+    <view wx:else class="consignee-none">
+      <view class="stripe-line">
+        <view class="btn-add" @tap="selectAddress">+ 添加收货地址</view>
+        <image src="http://www.mintree.cn/img/luhuishan/img/stripe.png" mode="widthFix"></image>
+      </view>
+    </view>
+    <view class="product-item">
+      <view class="author-line display-flex flex-align-center flex-pack-justify">
+        <view class="name">作者：{{product.authorName}}</view>
+      </view>
+      <view class="product-line display-flex flex-align-start">
+        <view class="pic">
+          <image src="{{product.productPic}}"></image>
+        </view>
+        <view class="product-view">
+          <view class="name">{{product.productName}}</view>
+          <view class="detail">{{product.productDetail}}</view>
+          <view class="cost">¥{{product.productCost}}</view>
+        </view>
+      </view>
+      <view class="buyer-message-line display-flex flex-align-center">
+        <view class="title">买家留言：</view>
+        <input class="flex-1" placeholder-class="input" placeholder="选填：请写下您的特殊要求"/>
+      </view>
+      <view class="freight-line display-flex flex-align-center flex-pack-justify">
+        <view class="left">运费</view>
+        <view class="right">¥{{product.freight}}</view>
+      </view>
+      <view class="cost-line display-flex flex-align-center flex-pack-justify">
+        <view class="left"></view>
+        <view class="right display-flex flex-align-center">合计：
+          <view class="cost">{{product.total}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="contact-btn display-flex flex-align-center" @tap="call">
+      <view class="contant display-flex flex-align-center">
+        <view class="icon">
+          <image src="http://www.mintree.cn/img/luhuishan/img/icon_contact.png"></image>
+        </view>
+        <view class="text">联系客服</view>
+      </view>
+    </view>
+    <view class="btn-pay-wx" @tap="pay">微信支付</view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '订单确认'
+    };
+    data = {
+      // consignee: {
+      //   consigneeName: '张二狗',
+      //   consigneePhone: '158*****2202',
+      //   consigneeAddress: '上海市徐汇区漕河泾新兴技术开发区古美路研祥科技大厦3楼。'
+      // },
+      product: {
+        authorName: '张二狗',
+        productStatus: '已发货',
+        productPic: 'http://www.mintree.cn/img/luhuishan/img/product_thumbnail.png',
+        productName: '我梦中的宏村',
+        productDetail: '油画/60cm*70cm/亚麻布/1920年/未装裱',
+        productCost: '888.00',
+        freight: '20',
+        total: '908.00'
+      }
+    };
+    methods = {
+      call() {
+        wepy.makePhoneCall({
+          phoneNumber: '13701641836'
+        });
+      },
+      selectAddress() {
+        wepy.navigateTo({
+          url: 'selectAddress'
+        });
+      },
+      pay() {
+        wepy.showModal({
+          content: '是否购买',
+          cancelText: '否',
+          confirmText: '是',
+          success: function(res) {
+            if (res.confirm) {
+              wepy.reLaunch({
+                url: 'index'
+              });
+            }
+          }
+        });
+      }
+    };
+
+    onLoad() {
+
+    }
+  }
+</script>

@@ -1,0 +1,149 @@
+<style lang="less">
+
+  page {
+    background: #F8F8F8;
+    .wapper {
+      .nothing {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        .nothing-view {
+          position: absolute;
+          top: 50%;
+          width: 100%;
+          margin-top: ~"-278rpx";
+          image {
+            margin: 0 auto;
+            display: block;
+            width: ~"160rpx";
+            height: ~"168rpx";
+          }
+          .text {
+            margin-top: ~"68rpx";
+            font-family: PingFangSC-Regular;
+            font-size: ~"30rpx";
+            color: #999999;
+            text-align: center;
+          }
+        }
+      }
+      .author-list {
+        margin: ~"20rpx" 0 0 0;
+        .item {
+          border-bottom: ~"1rpx" solid #EEEEEE;
+          padding: ~"40rpx" ~"30rpx";
+          background: #FFFFFF;
+          .avatar {
+            image {
+              display: block;
+              width: ~"80rpx";
+              height: ~"80rpx";
+            }
+          }
+          .avatar-detail {
+            margin-left: ~"30rpx";
+            .top-line {
+              .name {
+                font-family: PingFangSC-Regular;
+                font-size: ~"28rpx";
+                color: #222222;
+                text-align: center;
+              }
+              .icon {
+                margin: 0 0 0 ~"10rpx";
+                image {
+                  display: block;
+                  width: ~"30rpx";
+                  height: ~"30rpx";
+                }
+              }
+              .labels {
+                margin: 0 0 0 ~"30rpx";
+                .label {
+                  font-family: PingFangSC-Regular;
+                  font-size: ~"20rpx";
+                  color: #FFAD8A;
+                  padding: 0 ~"20rpx";
+                  border: 1px solid #FFAD8A;
+                  border-radius: 4px;
+                  margin-right: ~"10rpx";
+                }
+              }
+            }
+            .botton-line {
+              margin-top: ~"10rpx";
+              font-family: PingFangSC-Regular;
+              font-size: ~"24rpx";
+              color: #999999;
+            }
+          }
+        }
+      }
+    }
+  }
+</style>
+<template>
+  <view class="wapper">
+    <view wx:if="{{myFocusList && myFocusList.length>0}}" class="author-list">
+      <view wx:for="{{myFocusList}}" wx:key="item" class="item display-flex flex-align-center" @tap="toAuthorDetail">
+        <view class="avatar">
+          <image src="http://www.mintree.cn/img/luhuishan/img/huajia_avatar.png"></image>
+        </view>
+        <view class="avatar-detail">
+          <view class="top-line display-flex flex-align-center">
+            <view class="name">{{item.name}}</view>
+            <view class="icon">
+              <image src="http://www.mintree.cn/img/luhuishan/img/wode_icon_renzheng.png"></image>
+            </view>
+            <view class="labels display-flex flex-align-center">
+              <repeat for="{{item.labelList}}" item="it">
+                <view class="label">{{it}}</view>
+              </repeat>
+            </view>
+          </view>
+          <view class="botton-line">
+            {{item.city}} / {{item.product}}件作品 / {{item.fans}}粉丝
+          </view>
+        </view>
+      </view>
+    </view>
+    <view wx:else class="nothing">
+      <view class="nothing-view">
+        <image src="http://www.mintree.cn/img/luhuishan/img/myFocus_default.png" mode="widthFix"></image>
+        <view class="text">您还没有关注的作者哦</view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '我关注的作者'
+    };
+    data = {
+      myFocusList: [
+        { name: '张一狗', labelList: ['油画', '水彩'], city: '上海', product: '6', fans: '75' },
+        { name: '张二狗', labelList: ['书法', '国画'], city: '上海', product: '16', fans: '175' },
+        { name: '张三狗', labelList: ['水粉', '水彩', '素描'], city: '上海', product: '46', fans: '375' },
+        { name: '张四狗', labelList: ['水粉', '丙烯'], city: '上海', product: '26', fans: '275' },
+        { name: '张五狗', labelList: ['油画', '水彩'], city: '上海', product: '36', fans: '575' },
+        { name: '张六狗', labelList: ['书法', '国画'], city: '上海', product: '46', fans: '675' },
+        { name: '张七狗', labelList: ['水粉', '水彩', '素描'], city: '上海', product: '56', fans: '875' }
+      ]
+    };
+    methods = {
+      toAuthorDetail() {
+        wepy.navigateTo({
+          url: 'authorDetail'
+        });
+      },
+    };
+
+    onLoad() {
+
+    }
+  }
+</script>

@@ -1,0 +1,162 @@
+<style lang="less">
+  page {
+    .wapper {
+      .search-view {
+        padding: ~"20rpx" ~"30rpx" 0;
+        .search-bar {
+          margin: 0 ~"20rpx" 0 0;
+          background: #F2F2F2;
+          border-radius: ~"8rpx";
+          padding: ~"15rpx" 0 ~"15rpx" ~"30rpx";
+          .icon-search {
+            image {
+              display: block;
+              width: ~"40rpx";
+              height: ~"40rpx";
+            }
+          }
+          .text {
+            margin-left: ~"20rpx";
+            font-family: PingFangSC-Regular;
+            font-size: ~"28rpx";
+            color: #999999;
+            text-align: justify;
+          }
+          .clear-icon {
+            margin: 0 ~"15rpx";
+            image {
+              display: block;
+              width: ~"36rpx";
+              height: ~"36rpx";
+            }
+          }
+        }
+        .btn-search {
+          background: #F77D85;
+          border-radius: ~"8rpx";
+          font-family: PingFangSC-Regular;
+          font-size: ~"28rpx";
+          color: #FFFFFF;
+        }
+      }
+      .title-line {
+        margin: ~"30rpx";
+        font-family: PingFangSC-Regular;
+        font-size: ~"28rpx";
+        color: #222222;
+        .right-btn {
+          font-family: PingFangSC-Regular;
+          font-size: ~"24rpx";
+          color: #F77D85;
+        }
+      }
+      .resultView {
+        padding: 0 ~"30rpx";
+        .block {
+          padding: ~"13rpx" ~"26rpx";
+          margin: 0 ~"20rpx" ~"30rpx" 0;
+          border: ~"1rpx" solid #CCCCCC;
+          border-radius: ~"8rpx";
+          font-family: PingFangSC-Light;
+          font-size: ~"24rpx";
+          color: #222222;
+        }
+      }
+      .split-line {
+        background: #EEEEEE;
+        height: ~"1rpx";
+      }
+    }
+  }
+</style>
+<template>
+  <view class="wapper">
+    <view class="search-view display-flex flex-align-center">
+      <view class="search-bar flex-1 display-flex flex-align-center">
+        <view class="icon-search">
+          <image src="http://www.mintree.cn/img/luhuishan/img/icon_shousuo.png"></image>
+        </view>
+        <input class="text flex-1" bindinput="bindkeyinput" value="{{searchVal}}"
+               placeholder="搜索你感兴趣的作品" />
+        <view wx:if="{{isShowClearBtn}}" class="clear-icon" @tap="clearSearch">
+          <image src="http://www.mintree.cn/img/luhuishan/img/icon_search_delete@3x.png"></image>
+        </view>
+      </view>
+      <button class="btn-search" @tap="toSearch">搜索</button>
+    </view>
+    <view wx:if="{{historyList.length >0 }}">
+      <view class="title-line display-flex flex-align-center flex-pack-justify">
+        <text>历史搜索</text>
+        <text class="right-btn" @tap="clearHistory">清除</text>
+      </view>
+      <view class="resultView display-flex flex-align-center flex-wrap">
+        <repeat for="{{historyList}}">
+          <view class="block">{{item.title}}</view>
+        </repeat>
+      </view>
+      <view class="split-line"></view>
+    </view>
+    <view class="title-line display-flex flex-align-center flex-pack-justify">
+      <text>分类</text>
+    </view>
+    <view class="resultView display-flex flex-align-center flex-wrap">
+      <repeat for="{{resultList}}">
+        <view class="block">{{item.title}}</view>
+      </repeat>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '搜索'
+    };
+    data = {
+      searchVal: '',
+      isShowClearBtn: false,
+      historyList: [
+        { title: '油画' },
+        { title: '国画' }
+      ],
+      resultList: [
+        { title: '油画' },
+        { title: '国画' },
+        { title: '丙烯' },
+        { title: '水彩' },
+        { title: '版画' },
+        { title: '素描' },
+        { title: '书法' },
+        { title: '摄影' },
+        { title: '水粉' },
+        { title: '其他' }
+      ]
+    };
+    methods = {
+      clearHistory() {
+        this.historyList = [];
+      },
+      clearSearch() {
+        this.searchVal = '';
+        this.isShowClearBtn = false;
+      },
+      bindkeyinput(e) {
+        this.searchVal = e.detail.value;
+        if (this.searchVal && this.searchVal.length > 0) {
+          this.isShowClearBtn = true;
+        }
+      },
+      toSearch() {
+        wepy.navigateTo({
+          url: 'searchResultView'
+        });
+      }
+    };
+
+    onLoad() {
+
+    }
+  }
+</script>

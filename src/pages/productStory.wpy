@@ -1,0 +1,179 @@
+<style lang="less">
+  page {
+    .wapper {
+      padding: ~"34rpx" ~"30rpx" ~"50rpx";
+      background: #FFFFFF;
+      .title {
+        font-family: PingFangSC-Regular;
+        font-size: ~"36rpx";
+        color: #000000;
+        text-align: center;
+      }
+      .sub-line {
+        margin: ~"25rpx" 0 0 0;
+        font-family: PingFangSC-Regular;
+        font-size: ~"24rpx";
+        color: #999999;
+        .author {
+        }
+        .date {
+          margin-left: ~"20rpx";
+        }
+        .count-read {
+        }
+      }
+      .preface-line {
+        margin: ~"20rpx" 0 0 0;
+        font-family: PingFangSC-Regular;
+        font-size: ~"28rpx";
+        color: #222222;
+        .preface-title {
+          width: ~"100rpx";
+        }
+        .preface-content {
+          padding: ~"16rpx" 0 0 ~"100rpx";
+          text-align: center;
+        }
+      }
+      .content-line {
+        .pic {
+          margin-top: ~"30rpx";
+          image {
+            display: block;
+            width: 100%;
+          }
+        }
+        .content {
+          margin-top: ~"30rpx";
+          font-family: PingFangSC-Regular;
+          font-size: ~"28rpx";
+          color: #222222;
+          line-height: ~"56rpx";
+        }
+      }
+      .thx-line {
+        padding: ~"10rpx" 0 ~"30rpx";
+        text-align: center;
+        font-family: PingFangSC-Regular;
+        font-size: ~"28rpx";
+        color: #222222;
+      }
+      .count-fabulous-line {
+        font-family: PingFangSC-Regular;
+        font-size: ~"28rpx";
+        color: #999999;
+        .icon {
+          /*background: #999999;*/
+          image {
+            display: block;
+            width: ~"36rpx";
+            height: ~"36rpx";
+          }
+        }
+        .text {
+
+        }
+      }
+    }
+  }
+</style>
+<template>
+  <view class="wapper">
+    <view class="title">我眼中的宏村</view>
+    <view class="sub-line display-flex flex-align-center flex-pack-justify">
+      <view class="author">作者：毛驴</view>
+      <view class="date flex-1">2018年7月5日</view>
+      <view class="count-read">阅读122</view>
+    </view>
+    <view class="preface-line">
+      <view class="preface-title">前言：</view>
+      <view class="preface-content">耳闻之，不如目见之，目见之，不如足见之。我走过的，你们来过的</view>
+    </view>
+    <view class="content-line">
+      <repeat for="{{detailData}}">
+        <view class="pic">
+          <image src="{{item.pic}}" mode="widthFix" lazy-load="true"></image>
+        </view>
+        <view class="content">{{item.content}}</view>
+      </repeat>
+
+    </view>
+    <view class="thx-line">谢谢观赏！！</view>
+    <view class="count-fabulous-line display-flex flex-align-center flex-pack-justify">
+      <view></view>
+      <view class="display-flex flex-align-center" @tap="toZan">
+        <view class="icon">
+          <image wx:if="{{!isZan}}" src="http://www.mintree.cn/img/luhuishan/img/zan_default.png"></image>
+          <image wx:if="{{isZan}}" src="http://www.mintree.cn/img/luhuishan/img/zan_.png"></image>
+        </view>
+        <view class="text">{{countZan}}</view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '作品故事'
+    };
+    data = {
+      isZan: false,
+      countZan: 1289,
+      detailData: [
+        {
+          pic: 'http://www.mintree.cn/img/luhuishan/product/1.png',
+          content: '外出写生的确是件让人即苦又乐的差事。写生，我爱去没被开发的野山里，或植物园里，清净自由，不被打扰，置身于山野写生，会感觉是件轻松愉悦的事，因为在想象中，只有天朗气清，惠风和畅，不会有狂风暴雨，不会有湿寒曝晒，也不会有现实中才可体会的疲惫。'
+        },
+        {
+          pic: 'http://www.mintree.cn/img/luhuishan/product/2.png',
+          content: '外出写生的确是件让人即苦又乐的差事。写生，我爱去没被开发的野山里，或植物园里，清净自由，不被打扰，置身于山野写生，会感觉是件轻松愉悦的事，因为在想象中，只有天朗气清，惠风和畅，不会有狂风暴雨，不会有湿寒曝晒，也不会有现实中才可体会的疲惫。'
+        },
+        {
+          pic: 'http://www.mintree.cn/img/luhuishan/product/3.png',
+          content: '外出写生的确是件让人即苦又乐的差事。写生，我爱去没被开发的野山里，或植物园里，清净自由，不被打扰，置身于山野写生，会感觉是件轻松愉悦的事，因为在想象中，只有天朗气清，惠风和畅，不会有狂风暴雨，不会有湿寒曝晒，也不会有现实中才可体会的疲惫。'
+        },
+        {
+          pic: 'http://www.mintree.cn/img/luhuishan/product/4.png',
+          content: '外出写生的确是件让人即苦又乐的差事。写生，我爱去没被开发的野山里，或植物园里，清净自由，不被打扰，置身于山野写生，会感觉是件轻松愉悦的事，因为在想象中，只有天朗气清，惠风和畅，不会有狂风暴雨，不会有湿寒曝晒，也不会有现实中才可体会的疲惫。'
+        },
+        {
+          pic: 'http://www.mintree.cn/img/luhuishan/product/5.png',
+          content: '外出写生的确是件让人即苦又乐的差事。写生，我爱去没被开发的野山里，或植物园里，清净自由，不被打扰，置身于山野写生，会感觉是件轻松愉悦的事，因为在想象中，只有天朗气清，惠风和畅，不会有狂风暴雨，不会有湿寒曝晒，也不会有现实中才可体会的疲惫。'
+        },
+        {
+          pic: 'http://www.mintree.cn/img/luhuishan/product/6.png',
+          content: '外出写生的确是件让人即苦又乐的差事。写生，我爱去没被开发的野山里，或植物园里，清净自由，不被打扰，置身于山野写生，会感觉是件轻松愉悦的事，因为在想象中，只有天朗气清，惠风和畅，不会有狂风暴雨，不会有湿寒曝晒，也不会有现实中才可体会的疲惫。'
+        },
+        {
+          pic: 'http://www.mintree.cn/img/luhuishan/product/7.png',
+          content: '外出写生的确是件让人即苦又乐的差事。写生，我爱去没被开发的野山里，或植物园里，清净自由，不被打扰，置身于山野写生，会感觉是件轻松愉悦的事，因为在想象中，只有天朗气清，惠风和畅，不会有狂风暴雨，不会有湿寒曝晒，也不会有现实中才可体会的疲惫。'
+        },
+        {
+          pic: 'http://www.mintree.cn/img/luhuishan/product/8.png',
+          content: '外出写生的确是件让人即苦又乐的差事。写生，我爱去没被开发的野山里，或植物园里，清净自由，不被打扰，置身于山野写生，会感觉是件轻松愉悦的事，因为在想象中，只有天朗气清，惠风和畅，不会有狂风暴雨，不会有湿寒曝晒，也不会有现实中才可体会的疲惫。'
+        },
+        {
+          pic: 'http://www.mintree.cn/img/luhuishan/product/9.png',
+          content: '外出写生的确是件让人即苦又乐的差事。写生，我爱去没被开发的野山里，或植物园里，清净自由，不被打扰，置身于山野写生，会感觉是件轻松愉悦的事，因为在想象中，只有天朗气清，惠风和畅，不会有狂风暴雨，不会有湿寒曝晒，也不会有现实中才可体会的疲惫。'
+        }
+      ]
+    };
+    methods = {
+      toZan() {
+        this.isZan = !this.isZan;
+        if (this.isZan) {
+          this.countZan++;
+        } else {
+          this.countZan--;
+        }
+      }
+    };
+
+    onLoad() {
+
+    }
+  }
+</script>

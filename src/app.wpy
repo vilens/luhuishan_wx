@@ -1,0 +1,147 @@
+<style lang="less" src="./assets/icon.less"></style>
+<style lang="less" src="./assets/common.less"></style>
+<style lang="less">
+  .container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+  }
+
+  page {
+    background: #F8F8F8;
+  }
+
+  .lhs-red {
+    color: #F77D85;
+  }
+
+  .lhs-bg-red {
+    background: #F77D85;
+  }
+
+  .male-color{
+    color: #21B3FF;
+  }
+  .female-color{
+    color: #FF3EC9;
+  }
+</style>
+
+<script>
+  import wepy from 'wepy';
+  import 'wepy-async-function';
+
+
+  export default class extends wepy.app {
+    config = {
+      pages: [
+        // 'pages/index',
+        'pages/main',
+        'pages/personalInfo',
+        'pages/identifyAuthor',
+        'pages/me',
+        'pages/author',
+        'pages/test',
+        'pages/productDetail',
+        'pages/productDrip',
+        'pages/productStory',
+        'pages/orderConfirm',
+        'pages/authorDetail',
+        'pages/editProduct',
+        'pages/orderDetail',
+        'pages/selectAddress',
+        'pages/myAddress',
+        'pages/addAddress',
+        'pages/myOrder',
+        'pages/myProduct',
+        'pages/feedback',
+        'pages/myLikeProduct',
+        'pages/myFocusAuthor',
+
+        'pages/searchResultView',
+        'pages/searchView'
+
+      ],
+      window: {
+        backgroundTextStyle: 'light',
+        navigationBarBackgroundColor: '#fff',
+        navigationBarTitleText: '鹿回山',
+        navigationBarTextStyle: 'black'
+        // pageOrientation: 'auto',
+        // navigationStyle: 'custom'
+      },
+      tabBar: {    //
+        color: '#222222',
+        selectedColor: '#F77D85',
+        backgroundColor: '#fff',
+        borderStyle: 'white',
+        list: [{
+          pagePath: 'pages/main',
+          selectedIconPath: './img/icon_shouye_red.png',
+          iconPath: './img/icon_shouye_black.png',
+          text: '首页'
+        }, {
+          pagePath: 'pages/author',
+          selectedIconPath: './img/icon_huajia_red.png',
+          iconPath: './img/icon_huajia_black.png',
+          text: '画家'
+        }, {
+          pagePath: 'pages/me',
+          selectedIconPath: './img/icon_wode_red.png',
+          iconPath: './img/icon_wode_black.png',
+          text: '我的'
+        }]
+      }
+    };
+
+    globalData = {
+      userInfo: null
+    };
+
+    constructor() {
+      super();
+      this.use('requestfix');
+    }
+
+    onLaunch() {
+      this.testAsync();
+      this.$interceptors = {
+        'request': {
+          config(p) {
+            console.log('request success');
+            return p;
+          },
+          success(p) {
+            console.log('request success');
+            return p;
+          },
+          fail(p) {
+            console.log('request error');
+            return p;
+          },
+          // 请求完成时的回调函数(请求成功或失败都会被执行)
+          complete(p) {
+            console.log('request complete: ', p);
+          }
+        }
+      };
+    }
+
+    sleep(s) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve('promise resolved');
+        }, s * 1000);
+      });
+    }
+
+    async testAsync() {
+      const data = await this.sleep(3);
+      console.log(data);
+    }
+
+  }
+</script>

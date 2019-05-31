@@ -1,0 +1,136 @@
+<style lang="less">
+  page {
+    .wapper-author {
+      background: #FFFFFF;
+      /*padding-bottom: ~"128rpx";*/
+      .author-list {
+        .item {
+          border-top: ~"1rpx" solid #EEEEEE;
+          padding: ~"40rpx" ~"30rpx";
+          .avatar {
+            image {
+              display: block;
+              width: ~"80rpx";
+              height: ~"80rpx";
+            }
+          }
+          .avatar-detail {
+            margin-left: ~"30rpx";
+            .top-line {
+              .name {
+                font-family: PingFangSC-Regular;
+                font-size: ~"28rpx";
+                color: #222222;
+                text-align: center;
+              }
+              .icon {
+                margin: 0 0 0 ~"10rpx";
+                image {
+                  display: block;
+                  width: ~"30rpx";
+                  height: ~"30rpx";
+                }
+              }
+              .labels {
+                margin: 0 0 0 ~"30rpx";
+                .label {
+                  font-family: PingFangSC-Regular;
+                  font-size: ~"20rpx";
+                  color: #FFAD8A;
+                  padding: 0 ~"20rpx";
+                  border: 1px solid #FFAD8A;
+                  border-radius: 4px;
+                  margin-right: ~"10rpx";
+                }
+              }
+            }
+            .botton-line {
+              margin-top: ~"10rpx";
+              font-family: PingFangSC-Regular;
+              font-size: ~"24rpx";
+              color: #999999;
+            }
+          }
+        }
+      }
+    }
+  }
+</style>
+<template>
+  <view class="wapper-author">
+    <search/>
+    <view class="author-list">
+      <view wx:for="{{searchList}}" wx:key="item" class="item display-flex flex-align-center" @tap="toAuthorDetail">
+        <view class="avatar">
+          <image src="http://www.mintree.cn/img/luhuishan/img/huajia_avatar.png"></image>
+        </view>
+        <view class="avatar-detail">
+          <view class="top-line display-flex flex-align-center">
+            <view class="name">{{item.name}}</view>
+            <view class="icon">
+              <image src="http://www.mintree.cn/img/luhuishan/img/wode_icon_renzheng.png"></image>
+            </view>
+            <view class="labels display-flex flex-align-center">
+              <repeat for="{{item.labelList}}" item="it">
+                <view class="label">{{it}}</view>
+              </repeat>
+            </view>
+          </view>
+          <view class="botton-line">
+            {{item.city}} / {{item.product}}件作品 / {{item.fans}}粉丝
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+  import Search from '../components/search';
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '作者',
+    };
+    components = {
+      search: Search
+    };
+    data = {
+      searchList: [],
+      authorList: [
+        { name: '张一狗', labelList: ['油画', '水彩'], city: '上海', product: '6', fans: '75' },
+        { name: '张二狗', labelList: ['书法', '国画'], city: '上海', product: '16', fans: '175' },
+        { name: '张三狗', labelList: ['水粉', '水彩', '素描'], city: '上海', product: '46', fans: '375' },
+        { name: '张四狗', labelList: ['水粉', '丙烯'], city: '上海', product: '26', fans: '275' },
+        { name: '张五狗', labelList: ['油画', '水彩'], city: '上海', product: '36', fans: '575' },
+        { name: '张六狗', labelList: ['书法', '国画'], city: '上海', product: '46', fans: '675' },
+        { name: '张七狗', labelList: ['水粉', '水彩', '素描'], city: '上海', product: '56', fans: '875' }
+      ]
+    };
+    methods = {
+      toAuthorDetail() {
+        wepy.navigateTo({
+          url: 'authorDetail'
+        });
+      }
+    };
+    events = {
+      goSearch(searchVal) {
+        let that = this;
+        that.searchList = [];
+        if (this.authorList && this.authorList.length > 0) {
+          this.authorList.forEach(function(item, index) {
+            if (item.name.search(searchVal) != -1) {
+              that.searchList.push(item);
+            }
+          });
+        }
+      }
+    };
+
+    onLoad() {
+      this.searchList = this.authorList;
+      this.$apply();
+    }
+  }
+</script>
